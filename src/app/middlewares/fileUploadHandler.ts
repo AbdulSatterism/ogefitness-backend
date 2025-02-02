@@ -61,7 +61,13 @@ const fileUploadHandler = () => {
   const filterFilter = (req: Request, file: any, cb: FileFilterCallback) => {
     if (file.fieldname === 'image' || file.fieldname === 'coverPhoto') {
       // Allow all images without checking the type
-      cb(null, true);
+
+      //TODO: update file system for
+      if (file.mimetype === 'image/gif' || file.mimetype.startsWith('image/')) {
+        cb(null, true);
+      }
+
+      // cb(null, true);
     } else if (file.fieldname === 'media') {
       if (file.mimetype === 'video/mp4' || file.mimetype === 'audio/mpeg') {
         cb(null, true);
@@ -88,10 +94,10 @@ const fileUploadHandler = () => {
     storage: storage,
     fileFilter: filterFilter,
   }).fields([
-    { name: 'image', maxCount: 3 },
-    { name: 'coverPhoto', maxCount: 3 },
-    { name: 'media', maxCount: 3 },
-    { name: 'doc', maxCount: 3 },
+    { name: 'image', maxCount: 10 },
+    { name: 'coverPhoto', maxCount: 10 },
+    { name: 'media', maxCount: 10 },
+    { name: 'doc', maxCount: 10 },
   ]);
   return upload;
 };
