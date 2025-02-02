@@ -12,16 +12,30 @@ const createUserSchema = z.object({
 //TODO: need update more fields for this site
 
 const updateUserProfileSchema = z.object({
-  name: z.string().optional(),
-  phone: z.string().optional(),
-  country: z.string().optional(),
-  injury: z.string().optional(),
-  age: z.number().optional(),
-  height: z.number().optional(),
-  weight: z.number().optional(),
-  gender: z.enum(['MALE', 'FEMALE', 'OTHERS']).optional(),
-  fitnessLevel: z.enum(['BASIC', 'INTERMEDIATE', 'ADVANCED']).optional(),
+  body: z.object({
+    name: z.string().optional(),
+    phone: z.string().optional(),
+    country: z.string().optional(),
+    injury: z.string().optional(),
+    age: z.number().optional(),
+    height: z.number().optional(),
+    weight: z.number().optional(),
+    gender: z.enum(['MALE', 'FEMALE', 'OTHERS']).optional(),
+    fitnessLevel: z.enum(['BASIC', 'INTERMEDIATE', 'ADVANCED']).optional(),
+  }),
 });
+
+// const updateUserProfileSchema = z.object({
+//   name: z.string().optional(),
+//   phone: z.string().optional(),
+//   country: z.string().optional(),
+//   injury: z.string().optional(),
+//   age: z.number().optional(),
+//   height: z.number().optional(),
+//   weight: z.number().optional(),
+//   gender: z.enum(['MALE', 'FEMALE', 'OTHERS']).optional(),
+//   fitnessLevel: z.enum(['BASIC', 'INTERMEDIATE', 'ADVANCED']).optional(),
+// });
 
 const updateLocationZodSchema = z.object({
   body: z.object({
