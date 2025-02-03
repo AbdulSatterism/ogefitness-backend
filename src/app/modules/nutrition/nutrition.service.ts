@@ -41,16 +41,6 @@ const updateNutriton = async (id: string, payload: Partial<TNutrition>) => {
   return result;
 };
 
-// const updatePrivacy = async (payload: TPrivacy) => {
-//   const result = await Privacy.findOneAndUpdate(
-//     {},
-//     { description: payload.description },
-//     { new: true },
-//   );
-
-//   return result;
-// };
-
 export const nutritionServices = {
   createNutritionIntoDB,
   getAllNutrition,

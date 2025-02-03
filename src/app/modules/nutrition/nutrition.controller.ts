@@ -70,17 +70,6 @@ const updateNutriton = catchAsync(async (req, res) => {
   });
 });
 
-// const updatePrivacy = catchAsync(async (req, res) => {
-//   const result = await privacyServices.updatePrivacy(req.body);
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: 'privacy updated succefully',
-//     data: result,
-//   });
-// });
-
 export const nutritionControllers = {
   getAllNutriton,
   createNutrition,
