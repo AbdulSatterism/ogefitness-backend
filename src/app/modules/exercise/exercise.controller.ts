@@ -24,52 +24,55 @@ const createExercise = catchAsync(async (req, res) => {
   });
 });
 
-// const getAllNutriton = catchAsync(async (req, res) => {
-//   const result = await nutritionServices.getAllNutrition();
+const getAllExercise = catchAsync(async (req, res) => {
+  const result = await exerciseServices.getAllExercise();
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: 'retrive all nutrition successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'retrive all exercise successfully',
+    data: result,
+  });
+});
 
-// const getSingleNutriton = catchAsync(async (req, res) => {
-//   const { id } = req.params;
-//   const result = await nutritionServices.getSingleNutrition(id);
+const getSingleExercise = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await exerciseServices.getSingleExercise(id);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: 'single nutritioin retrive successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'single exercise retrive successfully',
+    data: result,
+  });
+});
 
-// const updateNutriton = catchAsync(async (req, res) => {
-//   const { id } = req.params;
+const updateExercise = catchAsync(async (req, res) => {
+  const { id } = req.params;
 
-//   let image;
-//   if (req.files && 'image' in req.files && req.files.image[0]) {
-//     image = `/images/${req.files.image[0].filename}`;
-//   }
+  let gifImage;
+  if (req.files && 'gifImage' in req.files && req.files.gifImage[0]) {
+    gifImage = `/gifImage/${req.files.gifImage[0].filename}`;
+  }
 
-//   const value = {
-//     image,
-//     ...req.body,
-//   };
+  const value = {
+    gifImage,
+    ...req.body,
+  };
 
-//   const result = await nutritionServices.updateNutriton(id, value);
+  const result = await exerciseServices.updateExercise(id, value);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: 'nutrition updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'exercise updated successfully',
+    data: result,
+  });
+});
 
 export const exerciseControllers = {
   createExercise,
+  getAllExercise,
+  getSingleExercise,
+  updateExercise,
 };
