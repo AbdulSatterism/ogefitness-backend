@@ -8,11 +8,15 @@ import { aboutRoutes } from '../app/modules/aboutUs/aboutUs.route';
 import { reviewRoutes } from '../app/modules/review/review.route';
 
 import { tersmConditionRoutes } from '../app/modules/termsAndCondition/termsAndCondition.route';
+import { nutritionRoutes } from '../app/modules/nutrition/nutrition.route';
 const router = express.Router();
 
 const apiRoutes = [
   { path: '/user', route: UserRoutes },
   { path: '/auth', route: AuthRoutes },
+
+  { path: '/nutrition', route: nutritionRoutes },
+
   { path: '/notification', route: NotificationRoutes },
   { path: '/setting', route: settingRoutes },
   { path: '/privacy', route: privacyRoutes },

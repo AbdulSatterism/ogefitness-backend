@@ -1,8 +1,3 @@
-export interface IRecipe {
-  step: number;
-  description: string;
-}
-
 export type TNutrition = {
   title: string;
   image: string;
@@ -12,7 +7,8 @@ export type TNutrition = {
   fat: number;
   fiber: number;
   rating: number;
-  reviewsCount: number;
+  reviewsCount?: number;
+  category: string[];
   ingredients: string[];
-  recipe: IRecipe[];
+  instruction: string;
 };

@@ -29,8 +29,8 @@ router.post(
   UserController.updateProfile,
 );
 
-//! this update style i used before but not now
-
+//* this update style i used before but not now
+//TODO: if need this one updated then we will
 // router.post(
 //   '/update-profile',
 //   fileUploadHandler(),
