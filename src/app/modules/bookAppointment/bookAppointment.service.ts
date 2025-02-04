@@ -4,6 +4,7 @@ import { TBookAppointment } from './bookAppointment.interface';
 import { BookAppointment } from './bookAppointment.model';
 import { User } from '../user/user.model';
 import { Appointment } from '../appointment/appointment.model';
+import { Notification } from '../notifications/notifications.model';
 
 const createBookAppointment = async (payload: TBookAppointment) => {
   const isExistUser = await User.findById(payload?.userId);
@@ -29,6 +30,15 @@ const createBookAppointment = async (payload: TBookAppointment) => {
 
   const result = await BookAppointment.create(payload);
 
+  if (result) {
+    const notificationData = {
+      message: 'new appointment booked',
+      patientName: result.name,
+    };
+
+    await Notification.create(notificationData);
+  }
+
   return result;
 };
 
@@ -44,7 +54,12 @@ const getAllBookAppointment = async (page: number, limit: number) => {
   const appointments = await BookAppointment.find()
     .skip(skip)
     .limit(limit)
-    .sort({ createdAt: -1 }); // Sort by creation date (newest first)
+    .sort({ createdAt: -1 })
+    .populate({
+      path: 'userId',
+      select: 'name email phone',
+    })
+    .populate('appointmentId');
 
   // Return paginated result along with metadata
   return {

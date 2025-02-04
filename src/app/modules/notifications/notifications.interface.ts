@@ -1,10 +1,7 @@
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 
 export interface TNotification {
-  userId: Types.ObjectId;
-  senderGroupId: Types.ObjectId;
-  receiverGroupId: Types.ObjectId;
-  invitationId: Types.ObjectId;
+  patientName: string;
   message: string;
 }
 export type Notification = Model<TNotification>;
