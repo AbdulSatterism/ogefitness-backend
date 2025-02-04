@@ -10,6 +10,7 @@ import { reviewRoutes } from '../app/modules/review/review.route';
 import { tersmConditionRoutes } from '../app/modules/termsAndCondition/termsAndCondition.route';
 import { nutritionRoutes } from '../app/modules/nutrition/nutrition.route';
 import { exerciseRoutes } from '../app/modules/exercise/exercise.route';
+import { appointmentRoutes } from '../app/modules/appointment/appointment.route';
 const router = express.Router();
 
 const apiRoutes = [
@@ -18,6 +19,7 @@ const apiRoutes = [
 
   { path: '/nutrition', route: nutritionRoutes },
   { path: '/exercise', route: exerciseRoutes },
+  { path: '/appointment', route: appointmentRoutes },
 
   { path: '/notification', route: NotificationRoutes },
   { path: '/setting', route: settingRoutes },
