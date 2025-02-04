@@ -11,6 +11,7 @@ import { tersmConditionRoutes } from '../app/modules/termsAndCondition/termsAndC
 import { nutritionRoutes } from '../app/modules/nutrition/nutrition.route';
 import { exerciseRoutes } from '../app/modules/exercise/exercise.route';
 import { appointmentRoutes } from '../app/modules/appointment/appointment.route';
+import { bookAppointmentRoutes } from '../app/modules/bookAppointment/bookAppointment.route';
 const router = express.Router();
 
 const apiRoutes = [
@@ -20,6 +21,7 @@ const apiRoutes = [
   { path: '/nutrition', route: nutritionRoutes },
   { path: '/exercise', route: exerciseRoutes },
   { path: '/appointment', route: appointmentRoutes },
+  { path: '/book-appointment', route: bookAppointmentRoutes },
 
   { path: '/notification', route: NotificationRoutes },
   { path: '/setting', route: settingRoutes },

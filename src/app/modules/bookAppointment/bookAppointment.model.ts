@@ -14,6 +14,9 @@ const bookAppointmentSchema = new Schema<TBookAppointment>({
   userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   selectedDate: { type: String, required: true },
   selectedTime: { type: String, required: true },
+  paymentAmount: {
+    type: Number,
+  },
   paymentStatus: {
     type: String,
     default: 'PENDING',

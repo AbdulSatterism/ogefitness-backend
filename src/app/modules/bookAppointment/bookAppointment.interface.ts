@@ -9,5 +9,6 @@ export type TBookAppointment = {
   userId: Types.ObjectId;
   selectedDate: string;
   selectedTime: string;
+  paymentAmount: number;
   paymentStatus: 'PENDING' | 'COMPLETED';
 };
