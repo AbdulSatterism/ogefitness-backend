@@ -11,17 +11,17 @@ router.get(
   NotificationController.getAllNotification,
 );
 
-router.get(
-  '/user-notification',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
-  NotificationController.getUserNotification,
-);
+// router.get(
+//   '/user-notification',
+//   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+//   NotificationController.getUserNotification,
+// );
 
-router.get(
-  '/group-notification/:groupId',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
-  NotificationController.getGroupReceiverNotification,
-);
+// router.get(
+//   '/group-notification/:groupId',
+//   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+//   NotificationController.getGroupReceiverNotification,
+// );
 
 // router.patch(
 //   '/',
