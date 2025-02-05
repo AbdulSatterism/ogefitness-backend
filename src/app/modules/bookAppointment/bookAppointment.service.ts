@@ -7,18 +7,23 @@ import { Appointment } from '../appointment/appointment.model';
 import { Notification } from '../notifications/notifications.model';
 
 const createBookAppointment = async (payload: TBookAppointment) => {
-  const isExistUser = await User.findById(payload?.userId);
+  const { userId, appointmentId } = payload;
+
+  const isExistUser = await User.findById(userId);
 
   if (!isExistUser) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
-  const isAppointmentExist = await Appointment.findById(payload?.appointmentId);
+  const isAppointmentExist = await Appointment.findById(appointmentId);
 
   if (!isAppointmentExist) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'this appointment not found');
   }
-  payload.paymentAmount = isAppointmentExist?.price;
+
+  const { price } = isAppointmentExist;
+
+  payload.paymentAmount = price;
 
   //* check apointment available or not
   if (!isAppointmentExist.status) {
@@ -30,6 +35,17 @@ const createBookAppointment = async (payload: TBookAppointment) => {
 
   const result = await BookAppointment.create(payload);
 
+  // //* implement payment intent
+  // const paymentIntent = await stripe.paymentIntents.create({
+  //   amount: isAppointmentExist?.price * 100, // Amount in cents
+  //   currency: 'usd',
+  //   metadata: {
+  //     appointmentId: result._id.toString(),
+  //     userId: userId.toString(),
+  //   },
+  // });
+
+  //* create appointment
   if (result) {
     const notificationData = {
       message: 'new appointment booked',

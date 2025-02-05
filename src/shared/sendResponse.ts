@@ -4,6 +4,7 @@ type IData<T> = {
   success: boolean;
   statusCode: number;
   message?: string;
+  paymentIntent?: string | undefined;
   pagination?: {
     page: number;
     limit: number;
@@ -18,6 +19,7 @@ const sendResponse = <T>(res: Response, data: IData<T>) => {
     success: data.success,
     message: data.message,
     pagination: data.pagination,
+    paymentIntent: data.paymentIntent,
     data: data.data,
   };
   res.status(data.statusCode).json(resData);
