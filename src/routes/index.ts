@@ -12,6 +12,8 @@ import { nutritionRoutes } from '../app/modules/nutrition/nutrition.route';
 import { exerciseRoutes } from '../app/modules/exercise/exercise.route';
 import { appointmentRoutes } from '../app/modules/appointment/appointment.route';
 import { bookAppointmentRoutes } from '../app/modules/bookAppointment/bookAppointment.route';
+import { workoutPlanRoutes } from '../app/modules/workoutPlan/workoutPlan.route';
+
 const router = express.Router();
 
 const apiRoutes = [
@@ -22,6 +24,7 @@ const apiRoutes = [
   { path: '/exercise', route: exerciseRoutes },
   { path: '/appointment', route: appointmentRoutes },
   { path: '/book-appointment', route: bookAppointmentRoutes },
+  { path: '/workout-plan', route: workoutPlanRoutes },
 
   { path: '/notification', route: NotificationRoutes },
   { path: '/setting', route: settingRoutes },

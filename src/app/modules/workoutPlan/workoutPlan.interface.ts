@@ -20,72 +20,55 @@ export interface IWorkoutPlan {
 
 /*
 {
-  "planName": "Full-Body Strength Training",
+  "planName": "Lost weight",
   "description": "A plan designed to build strength and establish consistency over a period of time.",
-  "image": "image-url",
   "workouts": [
     {
       "isCompleted": true,
-      "day": "1",
+      "day": 1,
       "warmUp": {
         "duration": 5,
-        "exercises": ["exerciseId1", "exerciseId2"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "mainWorkout": {
         "duration": 30,
-        "exercises": ["exerciseId3", "exerciseId4", "exerciseId5"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "coolDown": {
         "duration": 5,
-        "exercises": ["exerciseId6"]
+        "exercises":["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", ]
       }
     },
     {
-      "isCompleted": false,
-      "day": "2",
+      "isCompleted": true,
+      "day": 2,
       "warmUp": {
         "duration": 5,
-        "exercises": ["exerciseId1", "exerciseId2"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "mainWorkout": {
         "duration": 30,
-        "exercises": ["exerciseId3", "exerciseId4", "exerciseId5"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "coolDown": {
         "duration": 5,
-        "exercises": ["exerciseId6"]
+        "exercises":["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", ]
       }
     },
     {
-      "isCompleted": false,
-      "day": "3",
+      "isCompleted": true,
+      "day": 3,
       "warmUp": {
         "duration": 5,
-        "exercises": ["exerciseId1", "exerciseId2"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "mainWorkout": {
         "duration": 30,
-        "exercises": ["exerciseId3", "exerciseId4", "exerciseId5"]
+        "exercises": ["67a09abb8a90723230ed9d2a","67a08c8ab09e5ab6ca493347", "67a096038a90723230ed9d26"]
       },
       "coolDown": {
         "duration": 5,
-        "exercises": ["exerciseId6"]
-      }
-    },
-    {
-      "isCompleted": false,
-      "day": "4",
-      "warmUp": {
-        "duration": 5,
-        "exercises": ["exerciseId1", "exerciseId2"]
-      },
-      "mainWorkout": {
-        "duration": 30,
-        "exercises": ["exerciseId3", "exerciseId4", "exerciseId5"]
-      },
-      "coolDown": {
-        "duration": 5,
-        "exercises": ["exerciseId6"]
+        "exercises":["67a09abb8a90723230ed9d2a","67a094dfe3434cbf5efd4fe8","67a08c8ab09e5ab6ca493347", ]
       }
     }
   ]

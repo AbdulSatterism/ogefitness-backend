@@ -18,6 +18,7 @@ const getAllWorkoutPlan = async () => {
   return result;
 };
 
+//TODO : need populate exercise when get single workout plan
 const getSingleWorkoutPlan = async (id: string) => {
   const isExistWorkoutPlan = await WorkoutPlan.findById(id);
 
