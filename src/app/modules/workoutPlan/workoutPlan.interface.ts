@@ -8,7 +8,7 @@ export interface DayWorkout {
 
 export interface WorkoutSection {
   duration: number;
-  exercises: string[];
+  exercises: string[]; //TODO: update exercises types object id
 }
 
 export interface IWorkoutPlan {
