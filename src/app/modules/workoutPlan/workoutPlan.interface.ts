@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface DayWorkout {
   isCompleted: boolean;
   day: number;
@@ -8,7 +10,7 @@ export interface DayWorkout {
 
 export interface WorkoutSection {
   duration: number;
-  exercises: string[]; //TODO: update exercises types object id
+  exercises: Types.ObjectId[]; //TODO: update exercises types object id
 }
 
 export interface IWorkoutPlan {

@@ -7,7 +7,7 @@ import {
 
 const WorkoutSectionSchema = new Schema<WorkoutSection>({
   duration: { type: Number, required: true },
-  exercises: { type: [String], required: true },
+  exercises: { type: [Schema.Types.ObjectId], ref: 'Exercise', required: true },
 });
 
 const DayWorkoutSchema = new Schema<DayWorkout>({
