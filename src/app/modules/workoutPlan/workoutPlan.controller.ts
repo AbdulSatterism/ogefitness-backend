@@ -6,6 +6,9 @@ import { workoutPlanServices } from './workoutPlan.services';
 //TODO: need update all things as per project requirment
 
 const createWorkoutPlan = catchAsync(async (req, res) => {
+  //* if user create this then also created at user works out collection
+  const user = req.user;
+
   let image;
   if (req.files && 'image' in req.files && req.files.image[0]) {
     image = `/images/${req.files.image[0].filename}`;
@@ -16,7 +19,7 @@ const createWorkoutPlan = catchAsync(async (req, res) => {
     ...req.body,
   };
 
-  const result = await workoutPlanServices.createWorkoutPlan(value);
+  const result = await workoutPlanServices.createWorkoutPlan(user, value);
 
   sendResponse(res, {
     success: true,

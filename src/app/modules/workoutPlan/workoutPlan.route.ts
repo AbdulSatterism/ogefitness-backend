@@ -9,9 +9,10 @@ import { workoutPlanControllers } from './workoutPlan.controller';
 
 const router = express.Router();
 
+//* user also create workout plan for plan and also store in admin collection but did not publish in from home
 router.post(
   '/create-workout-plan',
-  auth(USER_ROLES.ADMIN),
+  auth(USER_ROLES.ADMIN, USER_ROLES.USER),
   fileUploadHandler(),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);

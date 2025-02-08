@@ -14,6 +14,7 @@ export interface WorkoutSection {
 }
 
 export interface IWorkoutPlan {
+  createdBy: string;
   planName: string;
   description: string;
   image?: string;
