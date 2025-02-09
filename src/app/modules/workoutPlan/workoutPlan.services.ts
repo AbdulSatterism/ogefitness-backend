@@ -43,19 +43,59 @@ const getAllWorkoutPlan = async () => {
 };
 
 //TODO : need populate exercise when get single workout plan
-const getSingleWorkoutPlan = async (id: string) => {
+// const getSingleWorkoutPlan = async (id: string) => {
+//   const isExistWorkoutPlan = await WorkoutPlan.findById(id);
+
+//   if (!isExistWorkoutPlan) {
+//     throw new ApiError(StatusCodes.NOT_FOUND, 'workout plan not found');
+//   }
+
+//   const result = await WorkoutPlan.findById(id)
+//     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
+//     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
+//     .populate('workouts.coolDown.exercises'); // Populate coolDown exercises
+
+//   return result;
+// };
+
+const getSingleWorkoutPlan = async (id: string, day: number) => {
   const isExistWorkoutPlan = await WorkoutPlan.findById(id);
 
   if (!isExistWorkoutPlan) {
-    throw new ApiError(StatusCodes.NOT_FOUND, 'workout plan not found');
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Workout plan not found');
   }
 
-  const result = await WorkoutPlan.findById(id)
-    .populate('workouts.warmUp.exercises') // Populate warmUp exercises
-    .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
-    .populate('workouts.coolDown.exercises'); // Populate coolDown exercises
+  // Find the workout for the requested day
+  const workoutPlan = await WorkoutPlan.findById(id)
+    .populate('workouts.warmUp.exercises')
+    .populate('workouts.mainWorkout.exercises')
+    .populate('workouts.coolDown.exercises');
 
-  return result;
+  if (!workoutPlan) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Workout plan not found');
+  }
+
+  // Find the requested day's workout
+  const currentWorkout = workoutPlan.workouts.find(w => w.day === day);
+  if (!currentWorkout) {
+    throw new ApiError(
+      StatusCodes.NOT_FOUND,
+      'Workout for the requested day not found',
+    );
+  }
+
+  // Update the previous day's workout as completed
+  const previousWorkoutIndex = workoutPlan.workouts.findIndex(
+    w => w.day === day - 1,
+  );
+  if (previousWorkoutIndex !== -1) {
+    workoutPlan.workouts[previousWorkoutIndex].isCompleted = true;
+    await workoutPlan.updateOne({
+      $set: { [`workouts.${previousWorkoutIndex}.isCompleted`]: true },
+    });
+  }
+
+  return currentWorkout;
 };
 
 const updateWorkoutPlan = async (

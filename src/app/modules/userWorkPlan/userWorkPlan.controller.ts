@@ -17,8 +17,24 @@ const userAllWorkoutPlan = catchAsync(async (req, res) => {
   });
 });
 
+// const singleWorkPlan = catchAsync(async (req, res) => {
+//   const { id } = req.params;
+
+//   const result = await userWorkPlanServices.singleWorkPlan(id);
+
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: StatusCodes.OK,
+//     message: 'work plan retrive succefully',
+//     data: result,
+//   });
+// });
+
+//* get signle workout plan by day wise
 const singleWorkPlan = catchAsync(async (req, res) => {
-  const result = await userWorkPlanServices.singleWorkPlan(req.params.id);
+  const { id } = req.params;
+  const day = req.query.day ? parseInt(req.query.day as string, 10) : 1;
+  const result = await userWorkPlanServices.singleWorkPlan(id, day);
 
   sendResponse(res, {
     success: true,

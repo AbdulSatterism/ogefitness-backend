@@ -42,7 +42,8 @@ const getAllWorkoutPlan = catchAsync(async (req, res) => {
 
 const getSingleWorkoutPlan = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await workoutPlanServices.getSingleWorkoutPlan(id);
+  const day = req.query.day ? parseInt(req.query.day as string, 10) : 1;
+  const result = await workoutPlanServices.getSingleWorkoutPlan(id, day);
 
   sendResponse(res, {
     success: true,
