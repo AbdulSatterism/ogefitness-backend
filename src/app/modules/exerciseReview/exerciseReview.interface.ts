@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 
-export interface TReview {
+export interface TExerciseReview {
   userId: Types.ObjectId;
+  exerciseId: Types.ObjectId;
   comment: string;
 }

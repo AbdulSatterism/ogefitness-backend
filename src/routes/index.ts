@@ -5,7 +5,7 @@ import { NotificationRoutes } from '../app/modules/notifications/notifications.r
 import { settingRoutes } from '../app/modules/setting/setting.route';
 import { privacyRoutes } from '../app/modules/privacy/privacy.routes';
 import { aboutRoutes } from '../app/modules/aboutUs/aboutUs.route';
-import { reviewRoutes } from '../app/modules/review/review.route';
+import { exerciseReviewRoutes } from '../app/modules/exerciseReview/exerciseReview.route';
 
 import { tersmConditionRoutes } from '../app/modules/termsAndCondition/termsAndCondition.route';
 import { nutritionRoutes } from '../app/modules/nutrition/nutrition.route';
@@ -32,7 +32,7 @@ const apiRoutes = [
   { path: '/setting', route: settingRoutes },
   { path: '/privacy', route: privacyRoutes },
   { path: '/about', route: aboutRoutes },
-  { path: '/review', route: reviewRoutes },
+  { path: '/exercise-review', route: exerciseReviewRoutes },
   { path: '/terms', route: tersmConditionRoutes },
 ];
 
