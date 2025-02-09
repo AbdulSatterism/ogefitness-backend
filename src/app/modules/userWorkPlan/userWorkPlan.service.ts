@@ -62,6 +62,7 @@ const singleWorkPlan = async (id: string, day: number) => {
 
   // Find the requested day's workout
   const currentWorkout = workoutPlan.workouts.find(w => w.day === day);
+
   if (!currentWorkout) {
     throw new ApiError(
       StatusCodes.NOT_FOUND,
@@ -79,8 +80,10 @@ const singleWorkPlan = async (id: string, day: number) => {
       $set: { [`workouts.${previousWorkoutIndex}.isCompleted`]: true },
     });
   }
+  //* implement available total days
+  const totalDay = workoutPlan.workouts.length;
 
-  return currentWorkout;
+  return { data: currentWorkout, totalDay };
 };
 
 export const userWorkPlanServices = {
