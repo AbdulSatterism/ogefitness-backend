@@ -58,7 +58,7 @@ const getAllWorkoutPlan = async () => {
 //   return result;
 // };
 
-const getSingleWorkoutPlan = async (id: string, day: number) => {
+const getSingleWorkoutPlan = async (id: string) => {
   const isExistWorkoutPlan = await WorkoutPlan.findById(id);
 
   if (!isExistWorkoutPlan) {
@@ -76,26 +76,26 @@ const getSingleWorkoutPlan = async (id: string, day: number) => {
   }
 
   // Find the requested day's workout
-  const currentWorkout = workoutPlan.workouts.find(w => w.day === day);
-  if (!currentWorkout) {
-    throw new ApiError(
-      StatusCodes.NOT_FOUND,
-      'Workout for the requested day not found',
-    );
-  }
+  // const currentWorkout = workoutPlan.workouts.find(w => w.day === day);
+  // if (!currentWorkout) {
+  //   throw new ApiError(
+  //     StatusCodes.NOT_FOUND,
+  //     'Workout for the requested day not found',
+  //   );
+  // }
 
-  // Update the previous day's workout as completed
-  const previousWorkoutIndex = workoutPlan.workouts.findIndex(
-    w => w.day === day - 1,
-  );
-  if (previousWorkoutIndex !== -1) {
-    workoutPlan.workouts[previousWorkoutIndex].isCompleted = true;
-    await workoutPlan.updateOne({
-      $set: { [`workouts.${previousWorkoutIndex}.isCompleted`]: true },
-    });
-  }
+  // // Update the previous day's workout as completed
+  // const previousWorkoutIndex = workoutPlan.workouts.findIndex(
+  //   w => w.day === day - 1,
+  // );
+  // if (previousWorkoutIndex !== -1) {
+  //   workoutPlan.workouts[previousWorkoutIndex].isCompleted = true;
+  //   await workoutPlan.updateOne({
+  //     $set: { [`workouts.${previousWorkoutIndex}.isCompleted`]: true },
+  //   });
+  // }
 
-  return currentWorkout;
+  return workoutPlan;
 };
 
 const updateWorkoutPlan = async (

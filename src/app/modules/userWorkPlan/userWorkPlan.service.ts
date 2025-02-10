@@ -4,6 +4,29 @@ import { User } from '../user/user.model';
 import { UserWorkoutPlan } from './userWorkPlan.model';
 import { WorkoutPlan } from '../workoutPlan/workoutPlan.model';
 
+const addToPlan = async (id: string, workoutPlanId: string) => {
+  const isUserExist = await User.findById(id);
+
+  const isExistWorkoutPlan = await WorkoutPlan.findById(workoutPlanId);
+
+  if (!isUserExist) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'this user not found');
+  }
+
+  if (!isExistWorkoutPlan) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Workout plan not found');
+  }
+
+  const payload = {
+    user: id,
+    workoutPlanId: workoutPlanId,
+  };
+
+  const result = await UserWorkoutPlan.create(payload);
+
+  return result;
+};
+
 const userAllWorkoutPlan = async (id: string) => {
   const isUserExist = await User.findById(id);
 
@@ -89,4 +112,5 @@ const singleWorkPlan = async (id: string, day: number) => {
 export const userWorkPlanServices = {
   userAllWorkoutPlan,
   singleWorkPlan,
+  addToPlan,
 };

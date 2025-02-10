@@ -35,17 +35,7 @@ const createBookAppointment = async (payload: TBookAppointment) => {
 
   const result = await BookAppointment.create(payload);
 
-  // //* implement payment intent
-  // const paymentIntent = await stripe.paymentIntents.create({
-  //   amount: isAppointmentExist?.price * 100, // Amount in cents
-  //   currency: 'usd',
-  //   metadata: {
-  //     appointmentId: result._id.toString(),
-  //     userId: userId.toString(),
-  //   },
-  // });
-
-  //* create appointment
+  //* create appointment notification
   if (result) {
     const notificationData = {
       message: 'new appointment booked',
@@ -54,6 +44,14 @@ const createBookAppointment = async (payload: TBookAppointment) => {
 
     await Notification.create(notificationData);
   }
+
+  // const payment = await createPayment({
+  //   userId,
+  //   appointmentId,
+  //   amount: price,
+  // });
+
+  // return { appointment, payment };
 
   return result;
 };

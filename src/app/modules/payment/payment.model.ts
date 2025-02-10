@@ -11,7 +11,7 @@ const paymentSchema = new Schema<TPayment>(
       required: true,
     },
     transactionId: { type: String, required: true },
-    amount: { type: Number, required: true },
+    appointmentPrice: { type: Number, required: true },
     status: {
       type: String,
       enum: ['PENDING', 'COMPLETED'],

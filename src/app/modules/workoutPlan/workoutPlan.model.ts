@@ -22,6 +22,7 @@ const WorkoutPlanSchema = new Schema<IWorkoutPlan>({
   createdBy: { type: String, required: true },
   planName: { type: String, required: true },
   description: { type: String, required: true },
+  rating: { type: Number, default: 5 },
   image: { type: String, default: 'https://i.ibb.co.com/fd0nMfrB/fitness.png' },
   workouts: { type: [DayWorkoutSchema], required: true },
 });

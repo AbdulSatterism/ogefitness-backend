@@ -5,6 +5,6 @@ export type TPayment = {
   userId: Types.ObjectId;
   appointmentId: Types.ObjectId;
   transactionId: string;
-  amount: number;
-  status: 'PENDING' | 'COMPLETED';
+  appointmentPrice: number;
+  status: 'PENDING' | 'COMPLETED' | 'FAILED';
 };

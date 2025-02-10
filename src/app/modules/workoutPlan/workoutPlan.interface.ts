@@ -18,6 +18,7 @@ export interface IWorkoutPlan {
   planName: string;
   description: string;
   image?: string;
+  rating: number;
   workouts: DayWorkout[];
 }
 

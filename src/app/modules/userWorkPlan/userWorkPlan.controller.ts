@@ -6,6 +6,20 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { userWorkPlanServices } from './userWorkPlan.service';
 
+const addToPlan = catchAsync(async (req, res) => {
+  const result = await userWorkPlanServices.addToPlan(
+    req.user.id,
+    req.body.workoutPlanId,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'plan added succefully',
+    data: result,
+  });
+});
+
 const userAllWorkoutPlan = catchAsync(async (req, res) => {
   const result = await userWorkPlanServices.userAllWorkoutPlan(req.user.id);
 
@@ -47,4 +61,5 @@ const singleWorkPlan = catchAsync(async (req, res) => {
 export const userWorkoutPlanControllers = {
   userAllWorkoutPlan,
   singleWorkPlan,
+  addToPlan,
 };

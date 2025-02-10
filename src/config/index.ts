@@ -10,6 +10,7 @@ export default {
   port: process.env.PORT,
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   stripe_api_secret: process.env.STRIPE_SECRET_KEY,
+  stripe_webhook_secret: process.env.WEBHOOK_SECREAT,
   google_maps: process.env.GOOGLE_MAPS,
   jwt: {
     jwt_secret: process.env.JWT_SECRET,

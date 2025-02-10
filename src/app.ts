@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import router from './routes';
 import { Morgan } from './shared/morgen';
+import { paymentControllers } from './app/modules/payment/payment.controller';
 
 const app = express();
 
@@ -22,6 +23,13 @@ app.use(
     ],
     credentials: true,
   }),
+);
+
+//webhook
+app.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  paymentControllers.stripeWebhookController,
 );
 
 app.use(express.json());
