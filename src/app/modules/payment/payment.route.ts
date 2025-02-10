@@ -9,7 +9,7 @@ const router = express.Router();
 //webhook
 router.post(
   '/create-checkout-session',
-  auth(USER_ROLES.USER),
+  auth(USER_ROLES.ADMIN, USER_ROLES.USER),
   paymentControllers.createCheckoutSessionController,
 );
 

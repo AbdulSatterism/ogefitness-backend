@@ -2,13 +2,24 @@ import Stripe from 'stripe';
 import stripe from './utils';
 import { Payment } from './payment.model';
 import { Types } from 'mongoose';
+import { BookAppointment } from '../bookAppointment/bookAppointment.model';
+import ApiError from '../../../errors/ApiError';
+import { StatusCodes } from 'http-status-codes';
 
 const createCheckoutSessionService = async (
   userId: string,
   email: string,
   appointmentId: string,
-  appointmentPrice: number, // assuming appointment price is passed directly
 ) => {
+  const isBookAppointMent = await BookAppointment.findById(appointmentId);
+
+  if (!isBookAppointMent) {
+    throw new ApiError(
+      StatusCodes.BAD_GATEWAY,
+      'Book-Appointment is not found!',
+    );
+  }
+
   try {
     const lineItems = [
       {
@@ -16,9 +27,9 @@ const createCheckoutSessionService = async (
           currency: 'usd',
           product_data: {
             name: 'Appointment Payment',
-            description: `Payment for appointment ${appointmentId}`,
+            description: `Payment for appointment`,
           },
-          unit_amount: Math.round(appointmentPrice * 100),
+          unit_amount: isBookAppointMent?.paymentAmount * 100,
         },
         quantity: 1,
       },
@@ -50,26 +61,20 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      const { amount_total, metadata, payment_intent, client_secret } = session;
+      const { amount_total, metadata, payment_intent } = session;
       const userId = metadata?.userId as string; // Ensure you pass metadata when creating a checkout session
-      const products = JSON.parse(metadata?.products || '[]');
-      const email = session.customer_email || '';
-      // const client_secret = payment_intent || '';
 
       const amountTotal = (amount_total ?? 0) / 100;
 
-      console.log(session, 'session');
+      const isAppointment = session?.metadata?.appointmentId;
 
       const paymentRecord = new Payment({
-        amount: amountTotal, // Convert from cents to currency
-        user: new Types.ObjectId(userId),
-        products,
-        email,
+        appointmentPrice: amountTotal, // Convert from cents to currency
+        userId: new Types.ObjectId(userId),
+        appointmentId: isAppointment,
         transactionId: payment_intent,
-        client_secret: client_secret,
-        status: 'Completed',
+        status: 'COMPLETED',
       });
-
       await paymentRecord.save();
       break;
     }

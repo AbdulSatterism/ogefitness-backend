@@ -9,13 +9,12 @@ const createCheckoutSessionController = async (req: Request, res: Response) => {
   const userId: string = req.user.id;
   const email: string = req.user.email;
 
-  const { appointmentId, appointmentPrice } = req.body;
+  const { appointmentId } = req.body;
 
   try {
     const sessionUrl = await PaymentService.createCheckoutSessionService(
       userId,
       email,
-      appointmentPrice,
       appointmentId,
     );
     res.status(200).json({ url: sessionUrl });
