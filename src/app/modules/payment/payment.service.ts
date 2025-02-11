@@ -76,6 +76,13 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
         status: 'COMPLETED',
       });
       await paymentRecord.save();
+      // update book appointemtn status
+      await BookAppointment.findByIdAndUpdate(
+        isAppointment,
+        { paymentStatus: 'COMPLETED' },
+        { new: true },
+      );
+
       break;
     }
 

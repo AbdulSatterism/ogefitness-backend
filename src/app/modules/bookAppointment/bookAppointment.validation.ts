@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const createBookAppointmentValidationSchema = z.object({
   body: z.object({
-    name: z.string().nonempty({ message: 'Name is required' }),
+    name: z.string(),
     age: z
       .number()
       .int()
