@@ -16,15 +16,36 @@ const getAllNutrition = async () => {
   return result;
 };
 
-const getSingleNutrition = async (id: string) => {
-  const isExistNutrition = await Nutrition.findById(id);
+// const getSingleNutrition = async (id: string) => {
+//   const isExistNutrition = await Nutrition.findById(id);
 
-  if (!isExistNutrition) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, 'nutrition not found');
+//   if (!isExistNutrition) {
+//     throw new ApiError(StatusCodes.BAD_REQUEST, 'nutrition not found');
+//   }
+
+//   return isExistNutrition;
+// };
+
+//! get single nutriton with related nutrition
+export const getSingleNutrition = async (id: string) => {
+  const nutrition = await Nutrition.findById(id);
+
+  if (!nutrition) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Nutrition not found');
   }
 
-  return isExistNutrition;
+  // Find related nutrition items based on categories, excluding the current one
+  const relatedNutritions = await Nutrition.find({
+    _id: { $ne: id }, // Exclude the current nutrition item
+    category: { $in: nutrition.category }, // Match any of the categories
+  }).limit(4);
+
+  return {
+    nutrition,
+    relatedNutritions,
+  };
 };
+
 const updateNutriton = async (id: string, payload: Partial<TNutrition>) => {
   const isExistNutrition = await Nutrition.findById(id);
 

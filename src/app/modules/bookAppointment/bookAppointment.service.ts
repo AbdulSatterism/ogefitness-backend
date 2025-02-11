@@ -62,10 +62,14 @@ const getAllBookAppointment = async (page: number, limit: number) => {
   const skip = (page - 1) * limit;
 
   // Get the total count of appointments
-  const totalAppointments = await BookAppointment.countDocuments();
+  const totalAppointments = await BookAppointment.countDocuments({
+    paymentStatus: 'COMPLETED',
+  });
 
   // Fetch the paginated appointments
-  const appointments = await BookAppointment.find()
+  const appointments = await BookAppointment.find({
+    paymentStatus: 'COMPLETED',
+  })
     .skip(skip)
     .limit(limit)
     .sort({ createdAt: -1 })

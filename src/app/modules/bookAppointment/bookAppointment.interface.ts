@@ -10,5 +10,5 @@ export type TBookAppointment = {
   selectedDate: string;
   selectedTime: string;
   paymentAmount: number;
-  paymentStatus: 'PENDING' | 'COMPLETED';
+  paymentStatus: 'PENDING' | 'COMPLETED' | 'FAILED';
 };

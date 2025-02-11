@@ -37,26 +37,11 @@ const getAllWorkoutPlan = async () => {
   const result = await WorkoutPlan.find({ createdBy: 'ADMIN' })
     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
-    .populate('workouts.coolDown.exercises');
+    .populate('workouts.coolDown.exercises')
+    .sort({ rating: -1 });
 
   return result;
 };
-
-//TODO : need populate exercise when get single workout plan
-// const getSingleWorkoutPlan = async (id: string) => {
-//   const isExistWorkoutPlan = await WorkoutPlan.findById(id);
-
-//   if (!isExistWorkoutPlan) {
-//     throw new ApiError(StatusCodes.NOT_FOUND, 'workout plan not found');
-//   }
-
-//   const result = await WorkoutPlan.findById(id)
-//     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
-//     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
-//     .populate('workouts.coolDown.exercises'); // Populate coolDown exercises
-
-//   return result;
-// };
 
 const getSingleWorkoutPlan = async (id: string) => {
   const isExistWorkoutPlan = await WorkoutPlan.findById(id);

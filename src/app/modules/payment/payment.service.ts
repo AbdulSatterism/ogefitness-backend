@@ -41,6 +41,7 @@ const createCheckoutSessionService = async (
       mode: 'payment',
       success_url:
         'https://yourapp.com/success?session_id={CHECKOUT_SESSION_ID}',
+      // success_url: 'http://192.168.10.33:3000',
       cancel_url: 'https://yourapp.com/cancel',
       metadata: {
         userId,
@@ -76,7 +77,8 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
         status: 'COMPLETED',
       });
       await paymentRecord.save();
-      // update book appointemtn status
+
+      //* update book appointemtn status
       await BookAppointment.findByIdAndUpdate(
         isAppointment,
         { paymentStatus: 'COMPLETED' },
@@ -94,6 +96,13 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
         payment.status = 'FAILED';
         await payment.save();
       }
+      //* update book appointemtn status if failed
+      await BookAppointment.findByIdAndUpdate(
+        payment?.appointmentId,
+        { paymentStatus: 'FAILED' },
+        { new: true },
+      );
+
       break;
     }
 
