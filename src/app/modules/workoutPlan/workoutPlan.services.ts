@@ -32,15 +32,38 @@ const createWorkoutPlan = async (user: any, payload: IWorkoutPlan) => {
 };
 
 //TODO: need update all things
+// const getAllWorkoutPlan = async () => {
+//   //* find only whose data created by admin
+//   const result = await WorkoutPlan.find({ createdBy: 'ADMIN' })
+//     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
+//     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
+//     .populate('workouts.coolDown.exercises')
+//     .sort({ rating: -1 });
+
+//   return result;
+// };
+
 const getAllWorkoutPlan = async () => {
-  //* find only whose data created by admin
+  // Find only those workout plans created by admin
   const result = await WorkoutPlan.find({ createdBy: 'ADMIN' })
     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
     .populate('workouts.coolDown.exercises')
     .sort({ rating: -1 });
 
-  return result;
+  // Iterate through each workout plan to calculate total days
+  const workoutPlansWithStats = result.map(workoutPlan => {
+    // Calculate total number of days in the workout plan
+    const totalDays = workoutPlan.workouts.length;
+
+    // Organize the results with totalDays and exerciseCounts
+    return {
+      ...workoutPlan.toObject(),
+      totalDays,
+    };
+  });
+
+  return workoutPlansWithStats;
 };
 
 const getSingleWorkoutPlan = async (id: string) => {
@@ -59,26 +82,6 @@ const getSingleWorkoutPlan = async (id: string) => {
   if (!workoutPlan) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Workout plan not found');
   }
-
-  // Find the requested day's workout
-  // const currentWorkout = workoutPlan.workouts.find(w => w.day === day);
-  // if (!currentWorkout) {
-  //   throw new ApiError(
-  //     StatusCodes.NOT_FOUND,
-  //     'Workout for the requested day not found',
-  //   );
-  // }
-
-  // // Update the previous day's workout as completed
-  // const previousWorkoutIndex = workoutPlan.workouts.findIndex(
-  //   w => w.day === day - 1,
-  // );
-  // if (previousWorkoutIndex !== -1) {
-  //   workoutPlan.workouts[previousWorkoutIndex].isCompleted = true;
-  //   await workoutPlan.updateOne({
-  //     $set: { [`workouts.${previousWorkoutIndex}.isCompleted`]: true },
-  //   });
-  // }
 
   return workoutPlan;
 };

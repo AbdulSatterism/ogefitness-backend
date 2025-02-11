@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Stripe from 'stripe';
 import stripe from './utils';
 import { Payment } from './payment.model';
@@ -111,7 +112,17 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
   }
 };
 
+//TODO: payment all data and total earning price need implemnet all things of payment
+
+//* get all payment and calculate total price
+const getAllPayment = async () => {
+  const result = await Payment.find({ status: 'COMPLETED' });
+
+  return result;
+};
+
 export const PaymentService = {
   createCheckoutSessionService,
   handleStripeWebhookService,
+  getAllPayment,
 };

@@ -109,7 +109,9 @@ const specificUserBookAppointment = async (userId: string) => {
 
   //* find all data by userId who buy an appointment
 
-  const result = await BookAppointment.find({ userId: userId });
+  const result = await BookAppointment.find({ userId: userId }).populate(
+    'appointmentId',
+  );
 
   return result;
 };

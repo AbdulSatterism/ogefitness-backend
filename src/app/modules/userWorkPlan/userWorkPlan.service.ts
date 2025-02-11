@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../../../errors/ApiError';
 import { User } from '../user/user.model';
@@ -27,13 +28,32 @@ const addToPlan = async (id: string, workoutPlanId: string) => {
   return result;
 };
 
+// const userAllWorkoutPlan = async (id: string) => {
+//   const isUserExist = await User.findById(id);
+
+//   if (!isUserExist) {
+//     throw new ApiError(StatusCodes.NOT_FOUND, 'this user not found');
+//   }
+
+//   const result = await UserWorkoutPlan.find({ user: id }).populate({
+//     path: 'workoutPlanId',
+//     populate: {
+//       path: 'workouts.warmUp.exercises workouts.mainWorkout.exercises workouts.coolDown.exercises',
+//     },
+//   });
+
+//   return result;
+// };
+
 const userAllWorkoutPlan = async (id: string) => {
+  // Check if the user exists
   const isUserExist = await User.findById(id);
 
   if (!isUserExist) {
-    throw new ApiError(StatusCodes.NOT_FOUND, 'this user not found');
+    throw new ApiError(StatusCodes.NOT_FOUND, 'This user not found');
   }
 
+  // Fetch all workout plans for the user, including populated exercises
   const result = await UserWorkoutPlan.find({ user: id }).populate({
     path: 'workoutPlanId',
     populate: {
@@ -41,7 +61,28 @@ const userAllWorkoutPlan = async (id: string) => {
     },
   });
 
-  return result;
+  // Iterate through each workout plan to calculate total days and completed days
+  const workoutPlansWithStats = result.map(workoutPlanData => {
+    // Extract the workoutPlanId object from the result
+    const workoutPlan: any = workoutPlanData.workoutPlanId;
+
+    // Get total number of days in the workout plan
+    const totalDays = workoutPlan.workouts.length;
+
+    // Count the number of completed days (where `isCompleted = true`)
+    const completedDays = workoutPlan.workouts.filter(
+      (w: any) => w.isCompleted,
+    ).length;
+
+    // Add new fields to the workoutPlan object
+    return {
+      ...workoutPlanData.toObject(),
+      totalDays,
+      completedDays,
+    };
+  });
+
+  return workoutPlansWithStats;
 };
 
 // TODO: need pagination by day by day

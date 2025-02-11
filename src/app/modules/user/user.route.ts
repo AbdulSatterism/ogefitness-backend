@@ -29,41 +29,6 @@ router.post(
   UserController.updateProfile,
 );
 
-//* this update style i used before but not now
-//TODO: if need this one updated then we will
-// router.post(
-//   '/update-profile',
-//   fileUploadHandler(),
-//   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       // Parse the body if it contains data in stringified JSON format
-//       let validatedData;
-//       if (req.body.data) {
-//         validatedData = UserValidation.updateUserProfileSchema.parse(
-//           JSON.parse(req.body.data),
-//         );
-//       }
-
-//       // Handle image updates if files are uploaded
-//       if (req.files && Array.isArray(req.files) && req.files.length > 0) {
-//         // Assuming `fileUploadHandler` stores files in req.files
-//         const uploadedFiles = req.files.map((file: any) => file.path);
-//         validatedData = {
-//           ...validatedData,
-//           image: uploadedFiles[0], // Update the specific image field
-//         };
-//       }
-
-//       // Pass the validated data to the controller
-//       req.body = validatedData;
-//       await UserController.updateProfile(req, res, next);
-//     } catch (error) {
-//       next(error);
-//     }
-//   },
-// );
-
 router.get(
   '/user',
   auth(USER_ROLES.ADMIN, USER_ROLES.USER),

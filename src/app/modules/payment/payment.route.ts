@@ -13,4 +13,11 @@ router.post(
   paymentControllers.createCheckoutSessionController,
 );
 
+//* get all payment and price
+router.get(
+  '/all-payment',
+  auth(USER_ROLES.ADMIN),
+  paymentControllers.allPayment,
+);
+
 export const PaymentRoutes = router;

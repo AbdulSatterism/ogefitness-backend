@@ -15,6 +15,7 @@ import { bookAppointmentRoutes } from '../app/modules/bookAppointment/bookAppoin
 import { workoutPlanRoutes } from '../app/modules/workoutPlan/workoutPlan.route';
 import { userWorkoutPlanRoutes } from '../app/modules/userWorkPlan/userWorkPlan.route';
 import { PaymentRoutes } from '../app/modules/payment/payment.route';
+import { packageRoute } from '../app/modules/package/package.route';
 
 const router = express.Router();
 
@@ -36,6 +37,7 @@ const apiRoutes = [
   { path: '/about', route: aboutRoutes },
   { path: '/exercise-review', route: exerciseReviewRoutes },
   { path: '/terms', route: tersmConditionRoutes },
+  { path: '/package', route: packageRoute },
 ];
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

@@ -4,6 +4,9 @@ import { Request, Response } from 'express';
 import { PaymentService } from './payment.service';
 import stripe from './utils';
 import config from '../../../config';
+import sendResponse from '../../../shared/sendResponse';
+import { StatusCodes } from 'http-status-codes';
+import catchAsync from '../../../shared/catchAsync';
 
 const createCheckoutSessionController = async (req: Request, res: Response) => {
   const userId: string = req.user.id;
@@ -43,7 +46,20 @@ const stripeWebhookController = async (req: Request, res: Response) => {
   }
 };
 
+//* get all payment and calculate total price
+const allPayment = catchAsync(async (req, res) => {
+  const result = await PaymentService.getAllPayment();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'all payment retrive successfully',
+    data: result,
+  });
+});
+
 export const paymentControllers = {
   createCheckoutSessionController,
   stripeWebhookController,
+  allPayment,
 };
