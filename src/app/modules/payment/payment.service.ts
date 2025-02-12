@@ -115,10 +115,81 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
 //TODO: payment all data and total earning price need implemnet all things of payment
 
 //* get all payment and calculate total price
-const getAllPayment = async () => {
-  const result = await Payment.find({ status: 'COMPLETED' });
+// const getAllPayment = async () => {
+//   const result = await Payment.find({ status: 'COMPLETED' });
 
-  return result;
+//   return result;
+// };
+
+// const getAllPayment = async () => {
+//   const result = await Payment.aggregate([
+//     {
+//       $match: { status: 'COMPLETED' }, // Filter only completed payments
+//     },
+//     {
+//       $group: {
+//         _id: null, // Group all documents to compute the subtotal
+//         totalAppointmentPrice: { $sum: '$appointmentPrice' }, // Sum up all appointment prices
+//         payments: { $push: '$$ROOT' }, // Push all documents into an array
+//       },
+//     },
+//     {
+//       $project: {
+//         _id: 0, // Hide _id field
+//         subtotal: '$totalAppointmentPrice', // Rename total price as subtotal
+//         payments: 1, // Keep the array of payments
+//       },
+//     },
+//   ]);
+
+//   return result.length > 0 ? result[0] : { subtotal: 0, payments: [] };
+// };
+
+const getAllPayment = async () => {
+  const result = await Payment.aggregate([
+    {
+      $match: { status: 'COMPLETED' }, // Filter only completed payments
+    },
+    {
+      $lookup: {
+        from: 'users', // The name of the User collection in MongoDB
+        localField: 'userId',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    {
+      $unwind: {
+        path: '$user',
+        preserveNullAndEmptyArrays: true, // In case a user is missing
+      },
+    },
+    {
+      $group: {
+        _id: null, // Group all documents to compute the subtotal
+        totalAppointmentPrice: { $sum: '$appointmentPrice' }, // Sum up all appointment prices
+        payments: { $push: '$$ROOT' }, // Push all documents into an array
+      },
+    },
+    {
+      $project: {
+        _id: 0, // Hide _id field
+        subtotal: '$totalAppointmentPrice', // Rename total price as subtotal
+        payments: {
+          _id: 1,
+          // userId: 1,
+          transactionId: 1,
+          appointmentPrice: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          user: { _id: 1, name: 1, email: 1 }, // Only include necessary fields from User
+        },
+      },
+    },
+  ]);
+
+  return result.length > 0 ? result[0] : { subtotal: 0, payments: [] };
 };
 
 export const PaymentService = {

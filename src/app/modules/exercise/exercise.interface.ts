@@ -3,4 +3,5 @@ export type TExercise = {
   gifImage: string;
   description: string;
   isDeleted?: boolean;
+  gymEquipmentNeeded: 'yes' | 'no';
 };
