@@ -13,6 +13,8 @@ export interface WorkoutSection {
   exercises: Types.ObjectId[]; //TODO: update exercises types object id
 }
 
+//TODO: need implement subscription
+
 export interface IWorkoutPlan {
   createdBy: string;
   planName: string;
