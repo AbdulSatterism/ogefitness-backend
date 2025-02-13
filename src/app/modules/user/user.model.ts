@@ -63,9 +63,8 @@ const userSchema = new Schema<IUser, UserModal>(
       type: Boolean,
       default: false,
     },
-    subscribtion: {
+    subscription: {
       type: Boolean,
-      default: false,
     },
     isDeleted: {
       type: Boolean,

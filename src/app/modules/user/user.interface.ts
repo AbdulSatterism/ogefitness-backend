@@ -17,8 +17,7 @@ export type IUser = {
   fitnessLevel?: 'BASIC' | 'INTERMEDIATE' | 'ADVANCED';
   injury?: string;
   payment?: boolean;
-  subscribtion?: boolean;
-
+  subscription?: boolean;
   isDeleted?: boolean;
   authentication?: {
     isResetPassword: boolean;

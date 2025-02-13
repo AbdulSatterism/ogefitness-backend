@@ -36,8 +36,20 @@ const deletePackage = catchAsync(async (req, res) => {
   });
 });
 
+const allPackage = catchAsync(async (req, res) => {
+  const result = await packageServices.allPackage();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'all package successfully',
+    data: result,
+  });
+});
+
 export const packageController = {
   createPackage,
   updatePackage,
   deletePackage,
+  allPackage,
 };

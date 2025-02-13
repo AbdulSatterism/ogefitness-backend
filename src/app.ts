@@ -5,6 +5,7 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import router from './routes';
 import { Morgan } from './shared/morgen';
 import { paymentControllers } from './app/modules/payment/payment.controller';
+import { SubscriptionController } from './app/modules/subscription/subscription.controller';
 
 const app = express();
 
@@ -30,6 +31,13 @@ app.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
   paymentControllers.stripeWebhookController,
+);
+
+//subscriptation
+app.post(
+  '/subs-webhook',
+  express.raw({ type: 'application/json' }),
+  SubscriptionController.stripeWebhookController,
 );
 
 app.use(express.json());

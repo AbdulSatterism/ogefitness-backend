@@ -168,8 +168,15 @@ const deletePackage = async (planId: string) => {
   }
 };
 
+const allPackage = async () => {
+  const result = await Package.find();
+
+  return result;
+};
+
 export const packageServices = {
   createPackage,
   updatePackage,
   deletePackage,
+  allPackage,
 };

@@ -12,14 +12,25 @@ const createCheckoutSessionService = async (
   email: string,
   appointmentId: string,
 ) => {
-  const isBookAppointMent = await BookAppointment.findById(appointmentId);
+  const isExistBookAppointment = await BookAppointment.findById(appointmentId);
 
-  if (!isBookAppointMent) {
+  console.log(isExistBookAppointment);
+
+  if (!isExistBookAppointment) {
     throw new ApiError(
       StatusCodes.BAD_GATEWAY,
       'Book-Appointment is not found!',
     );
   }
+  // const isBookAppointMent = await BookAppointment.findOne({ appointmentId });
+  // console.log(isBookAppointMent, 'appoinetment in payment servicd');
+
+  // if (!isBookAppointMent) {
+  //   throw new ApiError(
+  //     StatusCodes.BAD_GATEWAY,
+  //     'Book-Appointment is not found!',
+  //   );
+  // }
 
   try {
     const lineItems = [
@@ -30,7 +41,7 @@ const createCheckoutSessionService = async (
             name: 'Appointment Payment',
             description: `Payment for appointment`,
           },
-          unit_amount: isBookAppointMent?.paymentAmount * 100,
+          unit_amount: isExistBookAppointment?.paymentAmount * 100,
         },
         quantity: 1,
       },

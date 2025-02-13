@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export type TSubscription = {
+export type ISubscription = {
   package: Types.ObjectId;
   user: Types.ObjectId;
   subscriptionId: string;
