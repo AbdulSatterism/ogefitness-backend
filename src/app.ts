@@ -30,14 +30,15 @@ app.use(
 app.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
-  paymentControllers.stripeWebhookController,
+  paymentControllers.paymentStripeWebhookController,
 );
 
+//TODO help needed
 //subscriptation
 app.post(
-  '/subs-webhook',
+  '/subscription-webhook',
   express.raw({ type: 'application/json' }),
-  SubscriptionController.stripeWebhookController,
+  SubscriptionController.subscriptionStripeWebhookController,
 );
 
 app.use(express.json());

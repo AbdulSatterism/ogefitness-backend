@@ -27,7 +27,7 @@ const createCheckoutSessionController = async (req: Request, res: Response) => {
   }
 };
 
-const stripeWebhookController = async (req: Request, res: Response) => {
+const paymentStripeWebhookController = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
 
   try {
@@ -60,6 +60,6 @@ const allPayment = catchAsync(async (req, res) => {
 
 export const paymentControllers = {
   createCheckoutSessionController,
-  stripeWebhookController,
+  paymentStripeWebhookController,
   allPayment,
 };

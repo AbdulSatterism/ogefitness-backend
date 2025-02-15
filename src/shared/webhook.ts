@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { Types } from 'mongoose';
 import { User } from '../app/modules/user/user.model';
 import stripe from '../app/modules/payment/utils';
-import { Subscriptation } from '../app/modules/subscription/subscription.model';
+import { Subscription } from '../app/modules/subscription/subscription.model';
 
 const handleCheckoutSessionCompleted = async (
   session: Stripe.Checkout.Session,
@@ -25,7 +25,7 @@ const handleCheckoutSessionCompleted = async (
 
   const status = payment_status === 'paid' ? 'Completed' : 'Pending';
 
-  const paymentRecord = new Subscriptation({
+  const paymentRecord = new Subscription({
     amount: amountTotal,
     user: new Types.ObjectId(userId),
     package: new Types.ObjectId(packageId),
@@ -45,7 +45,7 @@ const handleCheckoutSessionCompleted = async (
 
 // Function to handle invoice.payment_succeeded event
 const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
-  const subscription = await Subscriptation.findOne({
+  const subscription = await Subscription.findOne({
     subscriptionId: invoice.subscription,
   });
 
@@ -62,7 +62,7 @@ const handleInvoicePaymentSucceeded = async (invoice: Stripe.Invoice) => {
 
 // Function to handle invoice.payment_failed event
 const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
-  const subscription = await Subscriptation.findOne({
+  const subscription = await Subscription.findOne({
     subscriptionId: invoice.subscription,
   });
 
@@ -81,7 +81,7 @@ const handleInvoicePaymentFailed = async (invoice: Stripe.Invoice) => {
 
 // Function to handle checkout.session.async_payment_failed event
 const handleAsyncPaymentFailed = async (session: Stripe.Checkout.Session) => {
-  const payment = await Subscriptation.findOne({
+  const payment = await Subscription.findOne({
     stripeCustomerId: session.customer as string,
   });
   if (payment) {
@@ -92,7 +92,7 @@ const handleAsyncPaymentFailed = async (session: Stripe.Checkout.Session) => {
 
 // Function to handle customer.subscription.deleted event
 const handleSubscriptionDeleted = async (subscription: Stripe.Subscription) => {
-  const existingSubscription = await Subscriptation.findOne({
+  const existingSubscription = await Subscription.findOne({
     subscriptionId: subscription.id,
   });
 

@@ -20,7 +20,10 @@ const createCheckoutSessionController = async (req: Request, res: Response) => {
   }
 };
 
-const stripeWebhookController = async (req: Request, res: Response) => {
+const subscriptionStripeWebhookController = async (
+  req: Request,
+  res: Response,
+) => {
   const sig = req.headers['stripe-signature'];
 
   try {
@@ -93,7 +96,7 @@ const updateSubs = catchAsync(async (req: Request, res: Response) => {
 
 export const SubscriptionController = {
   createCheckoutSessionController,
-  stripeWebhookController,
+  subscriptionStripeWebhookController,
   getAllSubscriptation,
   cancelSubscriptation,
   getAllSubs,

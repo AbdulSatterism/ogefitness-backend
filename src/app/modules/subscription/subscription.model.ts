@@ -36,4 +36,4 @@ const subscribtionSchema = new Schema<ISubscription>({
   },
 });
 
-export const Subscriptation = model('subscriptation', subscribtionSchema);
+export const Subscription = model('Subscription', subscribtionSchema);

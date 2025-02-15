@@ -22,15 +22,6 @@ const createCheckoutSessionService = async (
       'Book-Appointment is not found!',
     );
   }
-  // const isBookAppointMent = await BookAppointment.findOne({ appointmentId });
-  // console.log(isBookAppointMent, 'appoinetment in payment servicd');
-
-  // if (!isBookAppointMent) {
-  //   throw new ApiError(
-  //     StatusCodes.BAD_GATEWAY,
-  //     'Book-Appointment is not found!',
-  //   );
-  // }
 
   try {
     const lineItems = [
