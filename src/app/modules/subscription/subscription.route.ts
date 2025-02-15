@@ -11,20 +11,21 @@ router.post(
   SubscriptionController.createCheckoutSessionController,
 );
 
+//* by admin only
 router.get(
-  '/get-subs-admin',
+  '/get-all-subscription',
   auth(USER_ROLES.ADMIN),
   SubscriptionController.getAllSubs,
 );
 
 router.get(
-  '/get-all',
+  '/get-user-subscripton',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
-  SubscriptionController.getAllSubscriptation,
+  SubscriptionController.getSpecificUserSubscription,
 );
 
 router.patch(
-  '/updated',
+  '/update',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   SubscriptionController.updateSubs,
 );

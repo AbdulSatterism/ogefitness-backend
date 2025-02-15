@@ -74,7 +74,7 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
   }
 };
 
-const getSubscribtionService = async (userId: string) => {
+const getSpecificUserSubscription = async (userId: string) => {
   const isUser = await User.findById(userId);
 
   if (!isUser) {
@@ -88,6 +88,7 @@ const getSubscribtionService = async (userId: string) => {
     })
     .populate({
       path: 'package',
+      select: 'name interval unitAmount',
     });
 
   if (!subscription) {
@@ -127,6 +128,7 @@ const cancelSubscriptation = async (userId: string) => {
   return updatedSub;
 };
 
+//* by admin
 const getAllSubs = async (query: Record<string, unknown>) => {
   const { page, limit } = query;
 
@@ -153,10 +155,8 @@ const getAllSubs = async (query: Record<string, unknown>) => {
 
   return {
     result,
-    meta: {
-      page: pages,
-      total: count,
-    },
+    page: pages,
+    total: count,
   };
 };
 
@@ -227,7 +227,7 @@ const updateSubscriptionPlanService = async (
   const updatedSub = await Subscription.findByIdAndUpdate(
     subscription._id,
     {
-      plan: newPackageId,
+      package: newPackageId,
       amount: prorationAmount,
       time: newPlan.interval,
       startDate: new Date(invoicePreview.period_start * 1000),
@@ -247,7 +247,7 @@ const updateSubscriptionPlanService = async (
 export const SubscriptationService = {
   createCheckoutSessionService,
   handleStripeWebhookService,
-  getSubscribtionService,
+  getSpecificUserSubscription,
   cancelSubscriptation,
   getAllSubs,
   updateSubscriptionPlanService,

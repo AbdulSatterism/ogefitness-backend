@@ -42,17 +42,20 @@ const subscriptionStripeWebhookController = async (
   }
 };
 
-const getAllSubscriptation = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user.id;
+const getSpecificUserSubscription = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user.id;
 
-  const result = await SubscriptationService.getSubscribtionService(userId);
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Subscriptation retrived successfully',
-    data: result,
-  });
-});
+    const result =
+      await SubscriptationService.getSpecificUserSubscription(userId);
+    sendResponse(res, {
+      success: true,
+      statusCode: StatusCodes.OK,
+      message: 'Subscriptation retrived successfully',
+      data: result,
+    });
+  },
+);
 
 const cancelSubscriptation = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.id;
@@ -97,7 +100,7 @@ const updateSubs = catchAsync(async (req: Request, res: Response) => {
 export const SubscriptionController = {
   createCheckoutSessionController,
   subscriptionStripeWebhookController,
-  getAllSubscriptation,
+  getSpecificUserSubscription,
   cancelSubscriptation,
   getAllSubs,
   updateSubs,
