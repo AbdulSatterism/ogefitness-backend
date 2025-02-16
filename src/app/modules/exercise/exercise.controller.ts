@@ -25,7 +25,7 @@ const createExercise = catchAsync(async (req, res) => {
 });
 
 const getAllExercise = catchAsync(async (req, res) => {
-  const result = await exerciseServices.getAllExercise();
+  const result = await exerciseServices.getAllExercise(req.query);
 
   sendResponse(res, {
     success: true,

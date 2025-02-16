@@ -11,8 +11,17 @@ const createExercise = async (payload: TExercise) => {
   return result;
 };
 
-const getAllExercise = async () => {
-  const result = await Exercise.find();
+const getAllExercise = async (query: Record<string, unknown>) => {
+  const { page, limit } = query;
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
+  const result = await Exercise.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
+    .lean();
 
   return result;
 };
