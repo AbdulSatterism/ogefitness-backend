@@ -152,11 +152,15 @@ const getAllSubs = async (query: Record<string, unknown>) => {
     .lean();
 
   const count = await Subscription.countDocuments(whereConditions);
+  const totalAmount = Number(
+    result.reduce((sum, sub) => sum + (sub.amount || 0), 0).toFixed(2),
+  );
 
   return {
     result,
     page: pages,
-    total: count,
+    totalSubscription: count,
+    totalAmount,
   };
 };
 
@@ -243,6 +247,47 @@ const updateSubscriptionPlanService = async (
 
   return updatedSub;
 };
+
+//* by admin
+// const getSingleSubscriptionDetails = async (paymentId: string) => {
+//   const payment = await Payment.findById(paymentId).populate({
+//     path: 'userId',
+//     select: 'name email',
+//   });
+
+//   if (!payment) {
+//     throw new ApiError(StatusCodes.NOT_FOUND, 'payment not found');
+//   }
+
+//   const { transactionId } = payment;
+
+//   if (!transactionId) {
+//     throw new ApiError(StatusCodes.BAD_REQUEST, 'Transaction ID is missing');
+//   }
+
+//   ///* Retrieve transaction details from Stripe
+//   const paymentIntent = await stripe.paymentIntents.retrieve(transactionId);
+
+//   // Fetch charge details to get card details
+//   const charge = await stripe.charges.retrieve(
+//     paymentIntent.latest_charge as string,
+//   );
+
+//   const transactionDetails = {
+//     currency: paymentIntent.currency,
+//     status: paymentIntent.status,
+//     paymentMethod: paymentIntent.payment_method_types[0],
+//     paymentEmail: charge.billing_details.email,
+//     paymentName: charge.billing_details.name,
+//     brand: charge.payment_method_details?.card?.brand ?? null,
+//     last4: charge.payment_method_details?.card?.last4 ?? null,
+//   };
+
+//   return {
+//     ...payment.toObject(), // Convert Mongoose document to a plain object
+//     transactionDetails,
+//   };
+// };
 
 export const SubscriptationService = {
   createCheckoutSessionService,

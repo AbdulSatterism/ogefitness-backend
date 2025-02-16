@@ -6,6 +6,7 @@ import { Types } from 'mongoose';
 import { BookAppointment } from '../bookAppointment/bookAppointment.model';
 import ApiError from '../../../errors/ApiError';
 import { StatusCodes } from 'http-status-codes';
+import { User } from '../user/user.model';
 
 const createCheckoutSessionService = async (
   userId: string,
@@ -114,39 +115,6 @@ const handleStripeWebhookService = async (event: Stripe.Event) => {
   }
 };
 
-//TODO: payment all data and total earning price need implemnet all things of payment
-
-//* get all payment and calculate total price
-// const getAllPayment = async () => {
-//   const result = await Payment.find({ status: 'COMPLETED' });
-
-//   return result;
-// };
-
-// const getAllPayment = async () => {
-//   const result = await Payment.aggregate([
-//     {
-//       $match: { status: 'COMPLETED' }, // Filter only completed payments
-//     },
-//     {
-//       $group: {
-//         _id: null, // Group all documents to compute the subtotal
-//         totalAppointmentPrice: { $sum: '$appointmentPrice' }, // Sum up all appointment prices
-//         payments: { $push: '$$ROOT' }, // Push all documents into an array
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0, // Hide _id field
-//         subtotal: '$totalAppointmentPrice', // Rename total price as subtotal
-//         payments: 1, // Keep the array of payments
-//       },
-//     },
-//   ]);
-
-//   return result.length > 0 ? result[0] : { subtotal: 0, payments: [] };
-// };
-
 const getAllPayment = async () => {
   const result = await Payment.aggregate([
     {
@@ -194,8 +162,65 @@ const getAllPayment = async () => {
   return result.length > 0 ? result[0] : { subtotal: 0, payments: [] };
 };
 
+//* by admin
+const getSinglePaymentDetails = async (paymentId: string) => {
+  const payment = await Payment.findById(paymentId).populate({
+    path: 'userId',
+    select: 'name email',
+  });
+
+  if (!payment) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'payment not found');
+  }
+
+  const { transactionId } = payment;
+
+  if (!transactionId) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Transaction ID is missing');
+  }
+
+  ///* Retrieve transaction details from Stripe
+  const paymentIntent = await stripe.paymentIntents.retrieve(transactionId);
+
+  // Fetch charge details to get card details
+  const charge = await stripe.charges.retrieve(
+    paymentIntent.latest_charge as string,
+  );
+
+  const transactionDetails = {
+    currency: paymentIntent.currency,
+    status: paymentIntent.status,
+    paymentMethod: paymentIntent.payment_method_types[0],
+    paymentEmail: charge.billing_details.email,
+    paymentName: charge.billing_details.name,
+    brand: charge.payment_method_details?.card?.brand ?? null,
+    last4: charge.payment_method_details?.card?.last4 ?? null,
+  };
+
+  return {
+    ...payment.toObject(), // Convert Mongoose document to a plain object
+    transactionDetails,
+  };
+};
+
+//* specific user payments
+const specificUserPayments = async (userId: string) => {
+  //* check user exist or not
+  const isUserExist = await User.findById(userId);
+
+  if (!isUserExist) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'user not found');
+  }
+
+  const payment = await Payment.find({ userId: userId });
+
+  return payment;
+};
+
 export const PaymentService = {
   createCheckoutSessionService,
   handleStripeWebhookService,
   getAllPayment,
+  getSinglePaymentDetails,
+  specificUserPayments,
 };

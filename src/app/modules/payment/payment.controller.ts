@@ -58,8 +58,33 @@ const allPayment = catchAsync(async (req, res) => {
   });
 });
 
+//*by admin
+const getSinglePaymentDetails = catchAsync(async (req, res) => {
+  const result = await PaymentService.getSinglePaymentDetails(req?.params?.id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'single payment retrive successfully',
+    data: result,
+  });
+});
+
+const specificUserPayments = catchAsync(async (req, res) => {
+  const result = await PaymentService.specificUserPayments(req.user.id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'user all payments successfully',
+    data: result,
+  });
+});
+
 export const paymentControllers = {
   createCheckoutSessionController,
   paymentStripeWebhookController,
   allPayment,
+  getSinglePaymentDetails,
+  specificUserPayments,
 };

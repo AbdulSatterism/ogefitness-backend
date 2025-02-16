@@ -20,4 +20,18 @@ router.get(
   paymentControllers.allPayment,
 );
 
+//*
+router.get(
+  '/user-payments',
+  auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+  paymentControllers.specificUserPayments,
+);
+
+//! get single payment details by admin only
+router.get(
+  '/payment-details/:id',
+  auth(USER_ROLES.ADMIN),
+  paymentControllers.getSinglePaymentDetails,
+);
+
 export const PaymentRoutes = router;
