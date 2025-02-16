@@ -249,45 +249,39 @@ const updateSubscriptionPlanService = async (
 };
 
 //* by admin
-// const getSingleSubscriptionDetails = async (paymentId: string) => {
-//   const payment = await Payment.findById(paymentId).populate({
-//     path: 'userId',
-//     select: 'name email',
-//   });
+const getSingleSubscriptionDetails = async (id: string) => {
+  const subscriptoin = await Subscription.findById(id);
 
-//   if (!payment) {
-//     throw new ApiError(StatusCodes.NOT_FOUND, 'payment not found');
-//   }
+  if (!subscriptoin) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'subscrition not found');
+  }
 
-//   const { transactionId } = payment;
+  const { subscriptionId } = subscriptoin;
 
-//   if (!transactionId) {
-//     throw new ApiError(StatusCodes.BAD_REQUEST, 'Transaction ID is missing');
-//   }
+  if (!subscriptionId) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Transaction ID is missing');
+  }
 
-//   ///* Retrieve transaction details from Stripe
-//   const paymentIntent = await stripe.paymentIntents.retrieve(transactionId);
+  //TODO need update after launch
 
-//   // Fetch charge details to get card details
-//   const charge = await stripe.charges.retrieve(
-//     paymentIntent.latest_charge as string,
-//   );
+  //* Fetch charge details to get card details
+  const stripeSubscription =
+    await stripe.subscriptions.retrieve(subscriptionId);
 
-//   const transactionDetails = {
-//     currency: paymentIntent.currency,
-//     status: paymentIntent.status,
-//     paymentMethod: paymentIntent.payment_method_types[0],
-//     paymentEmail: charge.billing_details.email,
-//     paymentName: charge.billing_details.name,
-//     brand: charge.payment_method_details?.card?.brand ?? null,
-//     last4: charge.payment_method_details?.card?.last4 ?? null,
-//   };
+  const subscriptionDetails = {
+    id: stripeSubscription.id,
+    status: stripeSubscription.status,
+    currency: stripeSubscription.currency,
+    interval: stripeSubscription.items.data[0]?.plan.interval,
+    startDate: new Date(stripeSubscription.start_date * 1000),
+    endDate: new Date(stripeSubscription.current_period_end * 1000),
+  };
 
-//   return {
-//     ...payment.toObject(), // Convert Mongoose document to a plain object
-//     transactionDetails,
-//   };
-// };
+  return {
+    ...subscriptoin.toObject(), // Convert Mongoose document to a plain object
+    subscriptionDetails,
+  };
+};
 
 export const SubscriptationService = {
   createCheckoutSessionService,
@@ -296,4 +290,5 @@ export const SubscriptationService = {
   cancelSubscriptation,
   getAllSubs,
   updateSubscriptionPlanService,
+  getSingleSubscriptionDetails,
 };

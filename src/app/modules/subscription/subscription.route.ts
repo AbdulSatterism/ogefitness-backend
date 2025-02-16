@@ -18,6 +18,13 @@ router.get(
   SubscriptionController.getAllSubs,
 );
 
+//* by admin only
+router.get(
+  '/get-subscription-details/:id',
+  auth(USER_ROLES.ADMIN),
+  SubscriptionController.getSingleSubscriptionDetails,
+);
+
 router.get(
   '/get-user-subscripton',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),

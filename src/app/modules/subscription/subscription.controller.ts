@@ -97,6 +97,19 @@ const updateSubs = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleSubscriptionDetails = catchAsync(async (req, res) => {
+  const result = await SubscriptationService.getSingleSubscriptionDetails(
+    req.params.id,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'single subscription retrive successfully',
+    data: result,
+  });
+});
+
 export const SubscriptionController = {
   createCheckoutSessionController,
   subscriptionStripeWebhookController,
@@ -104,4 +117,5 @@ export const SubscriptionController = {
   cancelSubscriptation,
   getAllSubs,
   updateSubs,
+  getSingleSubscriptionDetails,
 };
