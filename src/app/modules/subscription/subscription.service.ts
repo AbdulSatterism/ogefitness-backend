@@ -262,8 +262,6 @@ const getSingleSubscriptionDetails = async (id: string) => {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'Transaction ID is missing');
   }
 
-  //TODO need update after launch
-
   //* Fetch charge details to get card details
   const stripeSubscription =
     await stripe.subscriptions.retrieve(subscriptionId);
