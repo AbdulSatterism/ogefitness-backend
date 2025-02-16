@@ -30,7 +30,7 @@ const createWorkoutPlan = catchAsync(async (req, res) => {
 });
 
 const getAllWorkoutPlan = catchAsync(async (req, res) => {
-  const result = await workoutPlanServices.getAllWorkoutPlan();
+  const result = await workoutPlanServices.getAllWorkoutPlan(req.query);
 
   sendResponse(res, {
     success: true,

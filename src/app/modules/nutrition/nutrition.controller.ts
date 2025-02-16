@@ -25,7 +25,7 @@ const createNutrition = catchAsync(async (req, res) => {
 });
 
 const getAllNutriton = catchAsync(async (req, res) => {
-  const result = await nutritionServices.getAllNutrition();
+  const result = await nutritionServices.getAllNutrition(req.query);
 
   sendResponse(res, {
     success: true,

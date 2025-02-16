@@ -10,21 +10,20 @@ const createNutritionIntoDB = async (payload: TNutrition) => {
   return result;
 };
 
-const getAllNutrition = async () => {
-  const result = await Nutrition.find();
+const getAllNutrition = async (query: Record<string, unknown>) => {
+  const { page, limit } = query;
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
+  const result = await Nutrition.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
+    .lean();
 
   return result;
 };
-
-// const getSingleNutrition = async (id: string) => {
-//   const isExistNutrition = await Nutrition.findById(id);
-
-//   if (!isExistNutrition) {
-//     throw new ApiError(StatusCodes.BAD_REQUEST, 'nutrition not found');
-//   }
-
-//   return isExistNutrition;
-// };
 
 //! get single nutriton with related nutrition
 export const getSingleNutrition = async (id: string) => {

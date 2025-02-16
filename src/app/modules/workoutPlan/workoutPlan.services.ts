@@ -43,13 +43,21 @@ const createWorkoutPlan = async (user: any, payload: IWorkoutPlan) => {
 //   return result;
 // };
 
-const getAllWorkoutPlan = async () => {
+const getAllWorkoutPlan = async (query: Record<string, unknown>) => {
+  const { page, limit } = query;
+
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
   // Find only those workout plans created by admin
   const result = await WorkoutPlan.find({ createdBy: 'ADMIN' })
     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
     .populate('workouts.coolDown.exercises')
-    .sort({ rating: -1 });
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size);
 
   // Iterate through each workout plan to calculate total days
   const workoutPlansWithStats = result.map(workoutPlan => {
