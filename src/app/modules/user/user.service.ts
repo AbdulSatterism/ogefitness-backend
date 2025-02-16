@@ -47,13 +47,25 @@ const createUserFromDb = async (payload: IUser) => {
   return result;
 };
 
-const getAllUsers = async () => {
-  const result = await User.find();
+const getAllUsers = async (query: Record<string, unknown>) => {
+  const { page, limit } = query;
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
+  const result = await User.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
+    .lean();
+
   const count = await User.countDocuments();
 
   return {
     result,
-    count,
+    totalData: count,
+    page: pages,
+    limit: size,
   };
 };
 
