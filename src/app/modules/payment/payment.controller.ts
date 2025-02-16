@@ -48,7 +48,7 @@ const paymentStripeWebhookController = async (req: Request, res: Response) => {
 
 //* get all payment and calculate total price
 const allPayment = catchAsync(async (req, res) => {
-  const result = await PaymentService.getAllPayment();
+  const result = await PaymentService.getAllPayment(req.query);
 
   sendResponse(res, {
     success: true,
