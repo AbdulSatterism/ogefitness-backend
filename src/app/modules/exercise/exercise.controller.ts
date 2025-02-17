@@ -34,6 +34,17 @@ const getAllExercise = catchAsync(async (req, res) => {
     data: result,
   });
 });
+//* all exercise without pagination
+const allExercise = catchAsync(async (req, res) => {
+  const result = await exerciseServices.allExercise();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'retrive all exercise successfully',
+    data: result,
+  });
+});
 
 const getSingleExercise = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -75,4 +86,5 @@ export const exerciseControllers = {
   getAllExercise,
   getSingleExercise,
   updateExercise,
+  allExercise,
 };

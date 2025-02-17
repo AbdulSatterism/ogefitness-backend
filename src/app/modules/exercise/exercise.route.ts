@@ -24,6 +24,9 @@ router.post(
 
 router.get('/all-exercise', exerciseControllers.getAllExercise);
 
+//! all exercise without pagination
+router.get('/all', exerciseControllers.allExercise);
+
 router.get(
   '/exercise-details/:id',
   auth(USER_ROLES.ADMIN, USER_ROLES.USER),

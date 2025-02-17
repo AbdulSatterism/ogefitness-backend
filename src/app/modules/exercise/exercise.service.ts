@@ -25,6 +25,12 @@ const getAllExercise = async (query: Record<string, unknown>) => {
 
   return result;
 };
+//* all exercise without pagination
+const allExercise = async () => {
+  const result = await Exercise.find();
+
+  return result;
+};
 
 const getSingleExercise = async (id: string) => {
   const isExistExercise = await Exercise.findById(id);
@@ -57,4 +63,5 @@ export const exerciseServices = {
   getAllExercise,
   getSingleExercise,
   updateExercise,
+  allExercise,
 };
