@@ -11,7 +11,6 @@ const NutritionSchema = new Schema<TNutrition>({
   fiber: { type: Number, required: true },
   rating: { type: Number, required: true },
   reviewsCount: { type: Number, default: 0 },
-  category: { type: [String], required: true },
   ingredients: { type: [String], required: true },
   instruction: { type: String, required: true },
 });

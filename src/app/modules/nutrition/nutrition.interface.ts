@@ -8,7 +8,6 @@ export type TNutrition = {
   fiber: number;
   rating: number;
   reviewsCount?: number;
-  category: string[];
   ingredients: string[];
   instruction: string;
 };

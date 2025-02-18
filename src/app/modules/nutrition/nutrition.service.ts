@@ -32,16 +32,16 @@ export const getSingleNutrition = async (id: string) => {
   if (!nutrition) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Nutrition not found');
   }
-
+  //TODO: get related nutration base on others ingrediant
   // Find related nutrition items based on categories, excluding the current one
-  const relatedNutritions = await Nutrition.find({
-    _id: { $ne: id }, // Exclude the current nutrition item
-    category: { $in: nutrition.category }, // Match any of the categories
-  }).limit(4);
+  // const relatedNutritions = await Nutrition.find({
+  //   _id: { $ne: id }, // Exclude the current nutrition item
+  //   category: { $in: nutrition.category }, // Match any of the categories
+  // }).limit(4);
 
   return {
     nutrition,
-    relatedNutritions,
+    // relatedNutritions,
   };
 };
 
