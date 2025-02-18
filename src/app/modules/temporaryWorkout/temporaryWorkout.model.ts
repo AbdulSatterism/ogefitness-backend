@@ -3,7 +3,7 @@ import {
   DayWorkout,
   IWorkoutPlan,
   WorkoutSection,
-} from './workoutPlan.interface';
+} from './temporaryWorkout.interface';
 
 const WorkoutSectionSchema = new Schema<WorkoutSection>({
   duration: { type: Number, required: true },
@@ -19,7 +19,7 @@ const DayWorkoutSchema = new Schema<DayWorkout>({
 });
 
 const WorkoutPlanSchema = new Schema<IWorkoutPlan>({
-  createdBy: { type: String, default: 'ADMIN' },
+  createdBy: { type: String, required: true },
   planName: { type: String, required: true },
   description: { type: String, required: true },
   rating: { type: Number, default: 5 },
@@ -27,7 +27,7 @@ const WorkoutPlanSchema = new Schema<IWorkoutPlan>({
   workouts: { type: [DayWorkoutSchema], required: true },
 });
 
-export const WorkoutPlan = model<IWorkoutPlan>(
-  'WorkoutPlan',
+export const TemporaryWorkout = model<IWorkoutPlan>(
+  'TemporaryWorkout',
   WorkoutPlanSchema,
 );

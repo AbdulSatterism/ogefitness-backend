@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../../../errors/ApiError';
 import { TNutrition } from './nutrition.interface';
@@ -26,7 +27,6 @@ const getAllNutrition = async (query: Record<string, unknown>) => {
   return result;
 };
 
-//! get single nutriton with related nutrition
 // export const getSingleNutrition = async (id: string) => {
 //   const nutrition = await Nutrition.findById(id);
 

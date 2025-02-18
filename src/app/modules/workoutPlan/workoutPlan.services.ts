@@ -4,32 +4,36 @@ import ApiError from '../../../errors/ApiError';
 import unlinkFile from '../../../shared/unlinkFile';
 import { IWorkoutPlan } from './workoutPlan.interface';
 import { WorkoutPlan } from './workoutPlan.model';
-import { UserWorkoutPlan } from '../userWorkPlan/userWorkPlan.model';
 
+//TODO: update create workout plan for searching criteria
 //* create workout plan by admin and if user then create also in user add to plan
 
 const createWorkoutPlan = async (user: any, payload: IWorkoutPlan) => {
-  let result;
-  if (user.role === 'ADMIN') {
-    payload.createdBy = user.role;
-    result = await WorkoutPlan.create(payload);
-  }
+  payload.createdBy = user.role;
 
-  if (user.role === 'USER') {
-    // add first workout plan collection
-    payload.createdBy = user.role;
-    result = await WorkoutPlan.create(payload);
+  const result = await WorkoutPlan.create(payload);
+  // Populate the exercises in the workouts field
+  const populatedResult = await WorkoutPlan.findById(result._id)
+    .populate('workouts.warmUp.exercises')
+    .populate('workouts.mainWorkout.exercises')
+    .populate('workouts.coolDown.exercises')
+    .exec();
 
-    // add into user workout plan
-
-    await UserWorkoutPlan.create({
-      user: user.id,
-      workoutPlanId: result._id,
-    });
-  }
-
-  return result;
+  return populatedResult;
 };
+
+// if (user.role === 'USER') {
+// add first workout plan collection
+//   payload.createdBy = user.role;
+//   result = await WorkoutPlan.create(payload);
+
+// add into user workout plan
+
+//   await UserWorkoutPlan.create({
+//     user: user.id,
+//     workoutPlanId: result._id,
+//   });
+// }
 
 //TODO: need update all things
 // const getAllWorkoutPlan = async () => {
