@@ -70,9 +70,23 @@ const updateNutriton = catchAsync(async (req, res) => {
   });
 });
 
+const deleteNutrition = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await nutritionServices.deleteNutrition(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'nutrition deleted successfully',
+    data: result,
+  });
+});
+
 export const nutritionControllers = {
   getAllNutriton,
   createNutrition,
   getSingleNutriton,
   updateNutriton,
+  deleteNutrition,
 };

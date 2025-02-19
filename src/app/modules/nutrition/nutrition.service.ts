@@ -109,9 +109,22 @@ const updateNutriton = async (id: string, payload: Partial<TNutrition>) => {
   return result;
 };
 
+const deleteNutrition = async (id: string) => {
+  const isExistNutrition = await Nutrition.findById(id);
+
+  if (!isExistNutrition) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'nutrition not found');
+  }
+
+  const result = await Nutrition.findByIdAndDelete(id, { new: true });
+
+  return result;
+};
+
 export const nutritionServices = {
   createNutritionIntoDB,
   getAllNutrition,
   getSingleNutrition,
   updateNutriton,
+  deleteNutrition,
 };

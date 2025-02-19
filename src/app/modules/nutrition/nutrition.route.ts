@@ -41,4 +41,10 @@ router.post(
   nutritionControllers.updateNutriton,
 );
 
+router.post(
+  '/delete-nutrition/:id',
+  auth(USER_ROLES.ADMIN),
+  nutritionControllers.deleteNutrition,
+);
+
 export const nutritionRoutes = router;
