@@ -12,14 +12,8 @@ const createWorkoutPlan = async (user: any, payload: IWorkoutPlan) => {
   payload.createdBy = user.role;
 
   const result = await WorkoutPlan.create(payload);
-  // Populate the exercises in the workouts field
-  const populatedResult = await WorkoutPlan.findById(result._id)
-    .populate('workouts.warmUp.exercises')
-    .populate('workouts.mainWorkout.exercises')
-    .populate('workouts.coolDown.exercises')
-    .exec();
 
-  return populatedResult;
+  return result;
 };
 
 // if (user.role === 'USER') {
