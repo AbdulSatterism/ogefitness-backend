@@ -19,7 +19,7 @@ const DayWorkoutSchema = new Schema<DayWorkout>({
 });
 
 const WorkoutPlanSchema = new Schema<IWorkoutPlan>({
-  createdBy: { type: String, required: true },
+  createdBy: { type: String, default: 'ADMIN' },
   planName: { type: String, required: true },
   description: { type: String, required: true },
   rating: { type: Number, default: 5 },
