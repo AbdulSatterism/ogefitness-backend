@@ -1,5 +1,7 @@
 import { Types } from 'mongoose';
 
+//! not workable for this site
+
 export interface DayWorkout {
   isCompleted: boolean;
   day: number;

@@ -174,9 +174,21 @@ const allPackage = async () => {
   return result;
 };
 
+//* only for admin
+const singlePackage = async (id: string) => {
+  const result = await Package.findById(id);
+
+  if (!result) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'package not found');
+  }
+
+  return result;
+};
+
 export const packageServices = {
   createPackage,
   updatePackage,
   deletePackage,
   allPackage,
+  singlePackage,
 };

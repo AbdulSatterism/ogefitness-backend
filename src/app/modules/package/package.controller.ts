@@ -47,9 +47,21 @@ const allPackage = catchAsync(async (req, res) => {
   });
 });
 
+const singlePackage = catchAsync(async (req, res) => {
+  const result = await packageServices.singlePackage(req.params.id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'single package',
+    data: result,
+  });
+});
+
 export const packageController = {
   createPackage,
   updatePackage,
   deletePackage,
   allPackage,
+  singlePackage,
 };
