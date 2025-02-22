@@ -6,46 +6,14 @@ import { IWorkoutPlan } from './workoutPlan.interface';
 import { WorkoutPlan } from './workoutPlan.model';
 
 //TODO: update create workout plan for searching criteria
-//* create workout plan by admin and if user then create also in user add to plan
 
 const createWorkoutPlan = async (user: any, payload: IWorkoutPlan) => {
   payload.createdBy = user.role;
 
   const result = await WorkoutPlan.create(payload);
-  // Populate the exercises in the workouts field
-  // const populatedResult = await WorkoutPlan.findById(result._id)
-  //   .populate('workouts.warmUp.exercises')
-  //   .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
-  //   .populate('workouts.coolDown.exercises')
-  //   .exec();
 
   return result;
 };
-
-// if (user.role === 'USER') {
-// add first workout plan collection
-//   payload.createdBy = user.role;
-//   result = await WorkoutPlan.create(payload);
-
-// add into user workout plan
-
-//   await UserWorkoutPlan.create({
-//     user: user.id,
-//     workoutPlanId: result._id,
-//   });
-// }
-
-//TODO: need update all things
-// const getAllWorkoutPlan = async () => {
-//   //* find only whose data created by admin
-//   const result = await WorkoutPlan.find({ createdBy: 'ADMIN' })
-//     .populate('workouts.warmUp.exercises') // Populate warmUp exercises
-//     .populate('workouts.mainWorkout.exercises') // Populate mainWorkout exercises
-//     .populate('workouts.coolDown.exercises')
-//     .sort({ rating: -1 });
-
-//   return result;
-// };
 
 const getAllWorkoutPlan = async (query: Record<string, unknown>) => {
   const { page, limit } = query;
@@ -63,12 +31,8 @@ const getAllWorkoutPlan = async (query: Record<string, unknown>) => {
     .skip(skip)
     .limit(size);
 
-  // Iterate through each workout plan to calculate total days
   const workoutPlansWithStats = result.map(workoutPlan => {
-    // Calculate total number of days in the workout plan
     const totalDays = workoutPlan.workouts.length;
-
-    // Organize the results with totalDays and exerciseCounts
     return {
       ...workoutPlan.toObject(),
       totalDays,
@@ -89,7 +53,8 @@ const getSingleWorkoutPlan = async (id: string) => {
   const workoutPlan = await WorkoutPlan.findById(id)
     .populate('workouts.warmUp.exercises')
     .populate('workouts.mainWorkout.exercises')
-    .populate('workouts.coolDown.exercises');
+    .populate('workouts.coolDown.exercises')
+    .lean();
 
   if (!workoutPlan) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Workout plan not found');

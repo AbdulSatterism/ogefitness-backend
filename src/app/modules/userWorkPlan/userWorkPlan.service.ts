@@ -53,7 +53,7 @@ const userAllWorkoutPlan = async (id: string) => {
     const totalDays = workoutPlan.workouts.length;
 
     // Count the number of completed days (where `isCompleted = true`)
-    const completedDays = workoutPlan.workouts.filter(
+    const completedDays = workoutPlan?.workouts?.filter(
       (w: any) => w.isCompleted,
     ).length;
 

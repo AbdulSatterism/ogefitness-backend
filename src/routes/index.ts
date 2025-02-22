@@ -18,6 +18,7 @@ import { PaymentRoutes } from '../app/modules/payment/payment.route';
 import { packageRoute } from '../app/modules/package/package.route';
 import { SubscriptionRoutes } from '../app/modules/subscription/subscription.route';
 import { temporaryWorkoutRoutes } from '../app/modules/temporaryWorkout/temporaryWorkout.route';
+import { AiRoutes } from '../app/modules/ai/ai.route';
 
 const router = express.Router();
 
@@ -42,6 +43,10 @@ const apiRoutes = [
   { path: '/terms', route: tersmConditionRoutes },
   { path: '/package', route: packageRoute },
   { path: '/subscription', route: SubscriptionRoutes },
+  {
+    path: '/ai',
+    route: AiRoutes,
+  },
 ];
 
 apiRoutes.forEach(route => router.use(route.path, route.route));
