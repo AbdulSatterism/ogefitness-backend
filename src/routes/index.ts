@@ -19,6 +19,7 @@ import { packageRoute } from '../app/modules/package/package.route';
 import { SubscriptionRoutes } from '../app/modules/subscription/subscription.route';
 import { temporaryWorkoutRoutes } from '../app/modules/temporaryWorkout/temporaryWorkout.route';
 import { AiRoutes } from '../app/modules/ai/ai.route';
+import { mealPlanRoutes } from '../app/mealPlan/mealPlan.route';
 
 const router = express.Router();
 
@@ -32,6 +33,8 @@ const apiRoutes = [
   { path: '/book-appointment', route: bookAppointmentRoutes },
   { path: '/workout-plan', route: workoutPlanRoutes },
   { path: '/work-plan', route: userWorkoutPlanRoutes },
+  { path: '/meal', route: mealPlanRoutes },
+
   { path: '/temporary', route: temporaryWorkoutRoutes },
   { path: '/payment', route: PaymentRoutes },
 

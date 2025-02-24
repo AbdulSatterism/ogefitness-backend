@@ -117,13 +117,11 @@ const searchUserByPhone = async (searchTerm: string, userId: string) => {
   let result;
 
   if (searchTerm) {
-    // Find users with partial phone number match using regex, excluding the logged-in user
     result = await User.find({
       phone: { $regex: searchTerm, $options: 'i' },
-      _id: { $ne: userId }, // Exclude the logged-in user
+      _id: { $ne: userId },
     });
   } else {
-    // Retrieve 10 users, excluding the logged-in user
     result = await User.find({ _id: { $ne: userId } }).limit(10);
   }
 
