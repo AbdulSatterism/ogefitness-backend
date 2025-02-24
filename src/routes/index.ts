@@ -19,7 +19,7 @@ import { packageRoute } from '../app/modules/package/package.route';
 import { SubscriptionRoutes } from '../app/modules/subscription/subscription.route';
 import { temporaryWorkoutRoutes } from '../app/modules/temporaryWorkout/temporaryWorkout.route';
 import { AiRoutes } from '../app/modules/ai/ai.route';
-import { mealPlanRoutes } from '../app/mealPlan/mealPlan.route';
+import { mealPlanRoutes } from '../app/modules/mealPlan/mealPlan.route';
 
 const router = express.Router();
 

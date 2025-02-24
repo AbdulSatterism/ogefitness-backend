@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-import ApiError from '../../errors/ApiError';
-import { User } from '../modules/user/user.model';
+import ApiError from '../../../errors/ApiError';
+import { User } from '../user/user.model';
 import { IMealPlan } from './mealPlan.interface';
 import { MealPlan } from './mealPlan.model';
 

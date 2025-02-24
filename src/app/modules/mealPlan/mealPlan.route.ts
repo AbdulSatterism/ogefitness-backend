@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import auth from '../middlewares/auth';
-import { USER_ROLES } from '../../enums/user';
-import validateRequest from '../middlewares/validateRequest';
+import auth from '../../middlewares/auth';
+import { USER_ROLES } from '../../../enums/user';
+import validateRequest from '../../middlewares/validateRequest';
 import { mealPlanValidations } from './mealPlan.validation';
 import { mealPlanControllers } from './mealPlan.controller';
 

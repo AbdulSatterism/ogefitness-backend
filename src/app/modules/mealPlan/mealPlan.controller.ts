@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-import catchAsync from '../../shared/catchAsync';
-import sendResponse from '../../shared/sendResponse';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
 import { mealPlanServices } from './mealPlan.service';
 
 const createMealPlan = catchAsync(async (req, res) => {
