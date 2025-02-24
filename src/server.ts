@@ -21,8 +21,7 @@ process.on('uncaughtException', error => {
 let server: any;
 async function main() {
   try {
-    seedAdmin();
-    mongoose.connect(config.database_url as string);
+    await mongoose.connect(config.database_url as string);
     logger.info(colors.green('🚀 Database connected successfully'));
 
     const port =
@@ -33,6 +32,8 @@ async function main() {
         colors.yellow(`♻️  Application listening on port:${config.port}`),
       );
     });
+
+    await seedAdmin();
 
     //! delete all notification after 7 days. it's continues process
 
