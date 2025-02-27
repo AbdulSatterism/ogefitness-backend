@@ -16,15 +16,7 @@ app.use(Morgan.errorHandler);
 //body parser
 app.use(
   cors({
-    origin: [
-      'http://localhost:5174',
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://115.127.156.132:3003',
-      'http://115.127.156.132:3000',
-      'http://192.168.10.33:5173',
-      'https://fitness-oeg.vercel.app',
-    ],
+    origin: '*',
     credentials: true,
   }),
 );
