@@ -34,5 +34,6 @@ export default {
   },
   gpt: {
     key: process.env.GPT_API,
+    gpt_model_url: process.env.GPT_MODEL_URL,
   },
 };

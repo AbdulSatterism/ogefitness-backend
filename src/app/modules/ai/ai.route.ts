@@ -17,9 +17,7 @@ router.post(
   catchAsync(async (req, res) => {
     const prompt = req.body;
 
-    const url = 'https://api.openai.com/v1/chat/completions';
-
-    const response = await fetch(url, {
+    const response = await fetch(config.gpt.gpt_model_url as string, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
