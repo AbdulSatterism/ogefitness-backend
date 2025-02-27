@@ -17,12 +17,13 @@ app.use(Morgan.errorHandler);
 app.use(
   cors({
     origin: [
-      '*',
       'http://localhost:5174',
       'http://localhost:3000',
       'http://localhost:3001',
-      'http://localhost:3002',
+      'http://115.127.156.132:3003',
+      'http://115.127.156.132:3000',
       'http://192.168.10.33:5173',
+      'https://fitness-oeg.vercel.app',
     ],
     credentials: true,
   }),
@@ -62,7 +63,7 @@ app.get('/', (req: Request, res: Response) => {
 //global error handle
 app.use(globalErrorHandler);
 
-//handle not found route;
+//*handle not found route;
 app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({
     success: false,
