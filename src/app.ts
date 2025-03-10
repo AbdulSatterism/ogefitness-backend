@@ -16,7 +16,7 @@ app.use(Morgan.errorHandler);
 //body parser
 app.use(
   cors({
-    origin: '*',
+    origin: ['*', 'http://82.25.91.135:3001'],
     credentials: true,
   }),
 );
