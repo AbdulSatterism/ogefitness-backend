@@ -14,9 +14,14 @@ app.use(Morgan.successHandler);
 app.use(Morgan.errorHandler);
 
 //body parser
+
 app.use(
   cors({
-    origin: ['*', 'http://82.25.91.135:3001'],
+    origin: [
+      'http://82.25.91.135:3001',
+      'http://82.25.91.135:3000',
+      'http://82.25.91.135:3005',
+    ],
     credentials: true,
   }),
 );
