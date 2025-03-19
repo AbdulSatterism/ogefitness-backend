@@ -35,16 +35,12 @@ async function main() {
 
     await seedAdmin();
 
-    //! delete all notification after 7 days. it's continues process
-
     // Schedule the cron job to run every day at midnight
     cron.schedule('0 0 * * *', async () => {
       try {
-        // Calculate the date 7 days ago
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-        // Delete notifications older than 7 days
         const result = await Notification.deleteMany({
           createdAt: { $lt: sevenDaysAgo },
         });

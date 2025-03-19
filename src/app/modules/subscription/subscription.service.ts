@@ -30,9 +30,10 @@ const createCheckoutSessionService = async (
         },
       ],
       mode: 'subscription',
-      success_url:
-        'https://yourapp.com/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://yourapp.com/cancel',
+      success_url: 'https://oegfitness.com/paymentSuccess',
+      // success_url:
+      //   'https://oegfitness.com/paymentSuccess?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://oegfitness.com',
       metadata: {
         userId,
         packageId,
