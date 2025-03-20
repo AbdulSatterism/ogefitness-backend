@@ -33,7 +33,7 @@ const createCheckoutSessionService = async (
       success_url: 'https://oegfitness.com/paymentSuccess',
       // success_url:
       //   'https://oegfitness.com/paymentSuccess?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://oegfitness.com',
+      cancel_url: 'https://oegfitness.com/paymentError',
       metadata: {
         userId,
         packageId,
