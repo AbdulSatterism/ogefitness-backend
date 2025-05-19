@@ -20,6 +20,7 @@ import { SubscriptionRoutes } from '../app/modules/subscription/subscription.rou
 import { temporaryWorkoutRoutes } from '../app/modules/temporaryWorkout/temporaryWorkout.route';
 import { AiRoutes } from '../app/modules/ai/ai.route';
 import { mealPlanRoutes } from '../app/modules/mealPlan/mealPlan.route';
+import { ChatRoutes } from '../app/modules/chatMessage/chatMessage.route';
 
 const router = express.Router();
 
@@ -50,6 +51,7 @@ const apiRoutes = [
     path: '/ai',
     route: AiRoutes,
   },
+  { path: '/chat', route: ChatRoutes },
 ];
 
 apiRoutes.forEach(route => router.use(route.path, route.route));
