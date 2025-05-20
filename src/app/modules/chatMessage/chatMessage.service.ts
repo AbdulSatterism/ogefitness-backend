@@ -36,26 +36,25 @@ const getMessages = async (userId: string, sessionId: string) => {
     .lean();
 };
 
-const listSessions = async (userId: string) => {
-  const sessions = await ChatMessage.aggregate([
-    { $match: { userId } },
-    {
-      $group: {
-        _id: '$sessionId',
-        lastMessageAt: { $max: '$createdAt' },
-      },
-    },
-    { $sort: { lastMessageAt: -1 } },
-  ]);
-  return sessions.map(s => ({
-    sessionId: s._id,
-    lastMessageAt: s.lastMessageAt,
-  }));
-};
+// const listSessions = async (userId: string) => {
+//   const sessions = await ChatMessage.aggregate([
+//     { $match: { userId } },
+//     { $sort: { createdAt: -1 } },
+//     {
+//       $group: {
+//         _id: '$sessionId',
+//         createdAt: { $first: '$createdAt' },
+//       },
+//     },
+//   ]);
+//   return sessions.map(session => ({
+//     sessionId: session._id,
+//     createdAt: session.createdAt,
+//   }));
+// };
 
 export const ChatService = {
   createSessionId,
   saveMessage,
   getMessages,
-  listSessions,
 };

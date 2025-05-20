@@ -60,18 +60,18 @@ const getChatHistory = catchAsync(async (req, res) => {
   });
 });
 
-const listSessions = catchAsync(async (req, res) => {
-  const userId = req.user.id;
+// const listSessions = catchAsync(async (req, res) => {
+//   const userId = req.user.id;
 
-  const sessions = await ChatService.listSessions(userId);
+//   const sessions = await ChatService.listSessions(userId);
 
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Chat sessions listed successfully',
-    data: sessions,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: StatusCodes.OK,
+//     message: 'Chat sessions listed successfully',
+//     data: sessions,
+//   });
+// });
 
 export const ChatController = {
   createSession,
