@@ -70,8 +70,8 @@ const getStepByStepAnswer = async (
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages,
-      temperature: 0.7,
-      max_tokens: 500,
+      temperature: 0.1,
+      max_tokens: 1500,
     });
 
     return response.choices[0].message?.content ?? 'Sorry, no response.';

@@ -36,4 +36,10 @@ router.get(
   mealPlanControllers.allMealPlan,
 );
 
+router.post(
+  '/generate-meal-plan',
+  auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+  mealPlanControllers.generateMealPlan,
+);
+
 export const mealPlanRoutes = router;

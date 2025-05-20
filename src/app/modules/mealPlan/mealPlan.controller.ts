@@ -3,6 +3,20 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { mealPlanServices } from './mealPlan.service';
 
+const generateMealPlan = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+  const { prompt } = req.body;
+
+  const mealPlan = await mealPlanServices.generateMealPlan(prompt, userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Meal plan generated successfully',
+    data: mealPlan,
+  });
+});
+
 const createMealPlan = catchAsync(async (req, res) => {
   const userId = req.user.id;
 
@@ -60,4 +74,5 @@ export const mealPlanControllers = {
   userAllMealPlan,
   userSingleMealPlan,
   allMealPlan,
+  generateMealPlan,
 };
