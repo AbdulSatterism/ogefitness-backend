@@ -37,23 +37,82 @@ const getMessages = async (userId: string, sessionId: string) => {
     .lean();
 };
 
+// const listSessions = async (userId: string) => {
+//   const id = new mongoose.Types.ObjectId(userId);
+
+//   const sessions = await ChatMessage.aggregate([
+//     { $match: { userId: id } },
+//     {
+//       $group: {
+//         _id: '$sessionId',
+//         lastMessageAt: { $max: '$createdAt' }, // latest message time per session
+//       },
+//     },
+//     { $sort: { lastMessageAt: -1 } }, // sort sessions by latest message descending
+//   ]);
+
+//   return sessions.map(session => ({
+//     sessionId: session._id,
+//     createdAt: new Date(session.lastMessageAt).toLocaleString(),
+//   }));
+// };
+
 const listSessions = async (userId: string) => {
   const id = new mongoose.Types.ObjectId(userId);
 
   const sessions = await ChatMessage.aggregate([
     { $match: { userId: id } },
+
+    // Separate pipeline to get first question per session
     {
       $group: {
         _id: '$sessionId',
-        lastMessageAt: { $max: '$createdAt' }, // latest message time per session
+        lastMessageAt: { $max: '$createdAt' }, // last message date
+        firstQuestionMessageId: {
+          $min: {
+            $cond: [{ $eq: ['$role', 'question'] }, '$createdAt', null],
+          },
+        },
       },
     },
-    { $sort: { lastMessageAt: -1 } }, // sort sessions by latest message descending
+
+    // Lookup the message document with firstQuestionMessageId
+    {
+      $lookup: {
+        from: 'chatmessages',
+        let: { sessionId: '$_id', createdAt: '$firstQuestionMessageId' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$sessionId', '$$sessionId'] },
+                  { $eq: ['$createdAt', '$$createdAt'] },
+                  { $eq: ['$role', 'question'] },
+                ],
+              },
+            },
+          },
+          { $limit: 1 },
+        ],
+        as: 'firstQuestion',
+      },
+    },
+
+    // Flatten the firstQuestion array
+    {
+      $addFields: {
+        firstQuestion: { $arrayElemAt: ['$firstQuestion', 0] },
+      },
+    },
+
+    { $sort: { lastMessageAt: -1 } },
   ]);
 
   return sessions.map(session => ({
     sessionId: session._id,
     createdAt: new Date(session.lastMessageAt).toLocaleString(),
+    question: session.firstQuestion?.message || null,
   }));
 };
 
