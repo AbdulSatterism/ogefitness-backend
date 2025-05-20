@@ -3,6 +3,7 @@ import { ChatMessage } from './chatMessage.model';
 import { User } from '../user/user.model';
 import ApiError from '../../../errors/ApiError';
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
 
 const createSessionId = async (userId: string) => {
   const isUserExist = await User.findById(userId);
@@ -36,25 +37,29 @@ const getMessages = async (userId: string, sessionId: string) => {
     .lean();
 };
 
-// const listSessions = async (userId: string) => {
-//   const sessions = await ChatMessage.aggregate([
-//     { $match: { userId } },
-//     { $sort: { createdAt: -1 } },
-//     {
-//       $group: {
-//         _id: '$sessionId',
-//         createdAt: { $first: '$createdAt' },
-//       },
-//     },
-//   ]);
-//   return sessions.map(session => ({
-//     sessionId: session._id,
-//     createdAt: session.createdAt,
-//   }));
-// };
+const listSessions = async (userId: string) => {
+  const id = new mongoose.Types.ObjectId(userId);
+
+  const sessions = await ChatMessage.aggregate([
+    { $match: { userId: id } },
+    {
+      $group: {
+        _id: '$sessionId',
+        lastMessageAt: { $max: '$createdAt' }, // latest message time per session
+      },
+    },
+    { $sort: { lastMessageAt: -1 } }, // sort sessions by latest message descending
+  ]);
+
+  return sessions.map(session => ({
+    sessionId: session._id,
+    createdAt: new Date(session.lastMessageAt).toLocaleString(),
+  }));
+};
 
 export const ChatService = {
   createSessionId,
   saveMessage,
   getMessages,
+  listSessions,
 };
