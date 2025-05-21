@@ -78,7 +78,7 @@ const generateMealPlan = async (
       model: 'gpt-4o-mini',
       messages,
       temperature: 0.1,
-      max_tokens: 10000, // increased token limit
+      max_tokens: 20000, // increased token limit
     });
 
     const rawText = response.choices[0].message?.content ?? '';

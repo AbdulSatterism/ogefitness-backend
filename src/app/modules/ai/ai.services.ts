@@ -65,7 +65,7 @@ const getStepByStepAnswer = async (
       model: 'gpt-4o-mini',
       messages,
       temperature: 0.1,
-      max_tokens: 3500,
+      max_tokens: 5000,
     });
 
     return response.choices[0].message?.content ?? 'Sorry, no response.';
