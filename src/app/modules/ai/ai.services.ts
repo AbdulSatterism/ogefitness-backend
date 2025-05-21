@@ -9,12 +9,6 @@ interface Message {
 const buildOpenAIMessages = (
   chatHistory: { role: 'question' | 'answer'; message: string }[],
 ): Message[] => {
-  // const systemMessage: Message = {
-  //   role: 'system',
-  //   content:
-  //     "You are a certified and experienced fitness coach and personal trainer.Provide detailed, professional, and safe exercise guidance tailored to the user's requests.Your instructions should be clear, step-by-step, and easy to follow, including form tips, common mistakes to avoid, and safety precautions.Use encouraging and motivating language, and suggest modifications for different fitness levels when appropriate.Always prioritize user safety and effectiveness of the exercises.",
-  // };
-
   const systemMessage: Message = {
     role: 'system',
     content: `
@@ -71,7 +65,7 @@ const getStepByStepAnswer = async (
       model: 'gpt-4o-mini',
       messages,
       temperature: 0.1,
-      max_tokens: 1500,
+      max_tokens: 3500,
     });
 
     return response.choices[0].message?.content ?? 'Sorry, no response.';
