@@ -10,17 +10,6 @@ const createWorkout = async (payload: IWorkout) => {
   return result;
 };
 
-// const getAllWorkout = async (query: Record<string, unknown>) => {
-//   const { page, limit } = query;
-//   const pages = parseInt(page as string) || 1;
-//   const size = parseInt(limit as string) || 10;
-//   const skip = (pages - 1) * size;
-
-//   const result = await Workout.find().skip(skip).limit(size).lean();
-
-//   return result;
-// };
-
 const getAllWorkout = async (query: Record<string, unknown>) => {
   const { page, limit } = query;
   const currentPage = parseInt(page as string) || 1;
