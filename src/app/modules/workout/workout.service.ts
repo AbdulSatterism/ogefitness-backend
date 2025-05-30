@@ -10,19 +10,37 @@ const createWorkout = async (payload: IWorkout) => {
   return result;
 };
 
+// const getAllWorkout = async (query: Record<string, unknown>) => {
+//   const { page, limit } = query;
+//   const pages = parseInt(page as string) || 1;
+//   const size = parseInt(limit as string) || 10;
+//   const skip = (pages - 1) * size;
+
+//   const result = await Workout.find().skip(skip).limit(size).lean();
+
+//   return result;
+// };
+
 const getAllWorkout = async (query: Record<string, unknown>) => {
   const { page, limit } = query;
-  const pages = parseInt(page as string) || 1;
-  const size = parseInt(limit as string) || 10;
-  const skip = (pages - 1) * size;
+  const currentPage = parseInt(page as string) || 1;
+  const pageSize = parseInt(limit as string) || 10;
+  const skip = (currentPage - 1) * pageSize;
 
-  const result = await Workout.find()
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(size)
-    .lean();
+  const totalData = await Workout.countDocuments();
+  const totalPages = Math.ceil(totalData / pageSize);
 
-  return result;
+  const data = await Workout.find().skip(skip).limit(pageSize).lean();
+
+  return {
+    data,
+    meta: {
+      totalData,
+      totalPages,
+      currentPage,
+      pageSize,
+    },
+  };
 };
 
 const singleWorkout = async (id: string) => {
