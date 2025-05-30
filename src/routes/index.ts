@@ -21,6 +21,7 @@ import { temporaryWorkoutRoutes } from '../app/modules/temporaryWorkout/temporar
 import { AiRoutes } from '../app/modules/ai/ai.route';
 import { mealPlanRoutes } from '../app/modules/mealPlan/mealPlan.route';
 import { ChatRoutes } from '../app/modules/chatMessage/chatMessage.route';
+import { workoutRoutes } from '../app/modules/workout/workout.route';
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ const apiRoutes = [
   { path: '/workout-plan', route: workoutPlanRoutes },
   { path: '/work-plan', route: userWorkoutPlanRoutes },
   { path: '/meal', route: mealPlanRoutes },
+  { path: '/workout', route: workoutRoutes },
 
   { path: '/temporary', route: temporaryWorkoutRoutes },
   { path: '/payment', route: PaymentRoutes },

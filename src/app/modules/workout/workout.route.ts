@@ -23,12 +23,12 @@ router.post(
 router.get('/all-workout', WorkoutController.getAllWorkout);
 
 router.get(
-  '/workout/:id',
+  '/single-workout/:id',
   auth(USER_ROLES.ADMIN, USER_ROLES.USER),
   WorkoutController.singleWorkout,
 );
 
-router.post(
+router.patch(
   '/update-workout/:id',
   auth(USER_ROLES.ADMIN),
   fileUploadHandler(),
@@ -40,7 +40,7 @@ router.post(
   WorkoutController.updateWorkout,
 );
 
-router.post(
+router.delete(
   '/delete-workout/:id',
   auth(USER_ROLES.ADMIN),
   WorkoutController.deleteWorkout,
