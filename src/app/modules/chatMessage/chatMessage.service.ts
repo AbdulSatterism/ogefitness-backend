@@ -37,26 +37,6 @@ const getMessages = async (userId: string, sessionId: string) => {
     .lean();
 };
 
-// const listSessions = async (userId: string) => {
-//   const id = new mongoose.Types.ObjectId(userId);
-
-//   const sessions = await ChatMessage.aggregate([
-//     { $match: { userId: id } },
-//     {
-//       $group: {
-//         _id: '$sessionId',
-//         lastMessageAt: { $max: '$createdAt' }, // latest message time per session
-//       },
-//     },
-//     { $sort: { lastMessageAt: -1 } }, // sort sessions by latest message descending
-//   ]);
-
-//   return sessions.map(session => ({
-//     sessionId: session._id,
-//     createdAt: new Date(session.lastMessageAt).toLocaleString(),
-//   }));
-// };
-
 const listSessions = async (userId: string) => {
   const id = new mongoose.Types.ObjectId(userId);
 
