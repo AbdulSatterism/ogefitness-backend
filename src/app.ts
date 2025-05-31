@@ -17,7 +17,12 @@ app.use(Morgan.errorHandler);
 
 app.use(
   cors({
-    origin: ['*', 'https://oegfitness.com'],
+    origin: [
+      '*',
+      'https://oegfitness.com',
+      'http://localhost:3000',
+      'http://localhost:3001',
+    ],
     credentials: true,
   }),
 );
