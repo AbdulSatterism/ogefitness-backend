@@ -34,7 +34,6 @@ app.post(
   paymentControllers.paymentStripeWebhookController,
 );
 
-//TODO help needed
 //subscriptation
 app.post(
   '/subscription-webhook',
