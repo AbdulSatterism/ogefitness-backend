@@ -20,6 +20,7 @@ app.use(
     origin: [
       '*',
       'https://oegfitness.com',
+      'https://dashboard.oegfitness.com',
       'http://localhost:3000',
       'http://localhost:3001',
     ],
