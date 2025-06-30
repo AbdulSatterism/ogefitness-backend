@@ -30,7 +30,7 @@ const subscriptionStripeWebhookController = async (
     const event = stripe.webhooks.constructEvent(
       req.body,
       sig as string,
-      config.payment.stripe_webhook_secret as string,
+      config.payment.stripe_webhook_secret_sub as string,
     );
 
     await SubscriptationService.handleStripeWebhookService(event);

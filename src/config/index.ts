@@ -19,7 +19,8 @@ export default {
   },
   payment: {
     stripe_secret_key: process.env.STRIPE_SECRET_KEY,
-    stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+    stripe_webhook_secret_sub: process.env.STRIPE_WEBHOOK_SECRET_SUB,
+    stripe_webhook_secret_payment: process.env.STRIPE_WEBHOOK_SECRET_PAYMENT,
   },
   email: {
     from: process.env.EMAIL_FROM,

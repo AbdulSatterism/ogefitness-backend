@@ -55,7 +55,6 @@ const createCheckoutSessionService = async (
 
     return session.url;
   } catch (error) {
-    console.error('Stripe session creation failed:', error);
     throw new Error('Failed to create checkout session');
   }
 };

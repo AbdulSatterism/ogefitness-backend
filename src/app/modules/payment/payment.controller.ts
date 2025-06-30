@@ -22,7 +22,6 @@ const createCheckoutSessionController = async (req: Request, res: Response) => {
     );
     res.status(200).json({ url: sessionUrl });
   } catch (error) {
-    console.error('Error creating Stripe checkout session:', error);
     res.status(500).json({ message: 'Failed to create checkout session' });
   }
 };
@@ -34,14 +33,13 @@ const paymentStripeWebhookController = async (req: Request, res: Response) => {
     const event = stripe.webhooks.constructEvent(
       req.body,
       sig as string,
-      config.payment.stripe_webhook_secret as string,
+      config.payment.stripe_webhook_secret_payment as string,
     );
 
     await PaymentService.handleStripeWebhookService(event);
 
     res.status(200).send({ received: true });
   } catch (err) {
-    console.error('Error in Stripe webhook');
     res.status(400).send(`Webhook Error:`);
   }
 };
