@@ -14,43 +14,39 @@ const createCheckoutSessionService = async (
 ) => {
   const isUser = await User.findById(userId);
 
-  try {
-    const plan = await Package.findById(packageId);
+  const plan = await Package.findById(packageId);
 
-    if (!plan) {
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Package not found');
-    }
-
-    // Create a checkout session for a subscription
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price: plan.priceId,
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      success_url: 'https://oegfitness.com/paymentSuccess',
-      // success_url:
-      //   'https://oegfitness.com/paymentSuccess?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://oegfitness.com/paymentError',
-      metadata: {
-        userId,
-        packageId,
-      },
-      customer_email: isUser?.email,
-    });
-
-    if (!session) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed to create session');
-    }
-
-    // Return the checkout session URL
-    return session.url;
-  } catch (error) {
-    throw new Error('Failed to create checkout session');
+  if (!plan) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Package not found');
   }
+
+  // Create a checkout session for a subscription
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price: plan.priceId,
+        quantity: 1,
+      },
+    ],
+    mode: 'subscription',
+    success_url: 'https://oegfitness.com/paymentSuccess',
+    // success_url:
+    //   'https://oegfitness.com/paymentSuccess?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'https://oegfitness.com/paymentError',
+    metadata: {
+      userId,
+      packageId,
+    },
+    customer_email: isUser?.email,
+  });
+
+  if (!session) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed to create session');
+  }
+
+  // Return the checkout session URL
+  return session.url;
 };
 
 const handleStripeWebhookService = async (event: Stripe.Event) => {
