@@ -16,6 +16,7 @@ const createCheckoutSessionService = async (
 
   try {
     const plan = await Package.findById(packageId);
+
     if (!plan) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Package not found');
     }
@@ -40,6 +41,10 @@ const createCheckoutSessionService = async (
       },
       customer_email: isUser?.email,
     });
+
+    if (!session) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed to create session');
+    }
 
     // Return the checkout session URL
     return session.url;
